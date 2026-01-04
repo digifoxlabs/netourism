@@ -138,6 +138,11 @@ public function submit(Request $request, $slug)
         }
     }
 
+
+    if ($form->redirect_url) {
+             return redirect()->away($form->redirect_url);
+    }
+
     return back()->with(
         'success',
         $form->success_message ?: 'Thank you. Your submission has been received.'

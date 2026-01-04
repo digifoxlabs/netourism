@@ -151,6 +151,15 @@
                 </p>
             </div>
 
+            <div id="affiliate-form" class="mt-8">
+            {{-- Show Form Success Message --}}
+            @if(session('success'))
+                <div class="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+
             @if($form)
             {{-- render form --}}
             {{-- FORM --}}
@@ -165,6 +174,12 @@
                 Partner application form is currently unavailable. Please check back later.
             </div>
             @endif
+
+            </div>
+
+
+
+
 
         </div>
 
