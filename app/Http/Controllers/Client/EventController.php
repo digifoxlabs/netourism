@@ -40,89 +40,6 @@ class EventController extends Controller
         return view('client.events.show', compact('event', 'form', 'sections'));
     }
 
-//     public function submit(Request $request, string $slug)
-// {
-//     $event = Event::where('slug', $slug)->firstOrFail();
-
-//     // Block submissions if event is not active
-//     if ($event->status !== 'active') {
-//         abort(403, 'Registrations are closed for this event.');
-//     }
-
-//     if (!$event->form) {
-//         abort(404, 'Event form not found.');
-//     }
-
-//     $form = $event->form;
-//     $fields = $form->fields()->orderBy('sort_order')->get();
-
-//     $rules = [];
-//     $niceNames = [];
-
-//     foreach ($fields as $field) {
-//         $name = $field->name;
-
-//         // Skip validation if conditional field is hidden
-//         if ($field->conditional_enabled) {
-//             $controllerValue = $request->input($field->conditional_field);
-
-//             $conditionMet = match ($field->conditional_operator) {
-//                 'equals'       => $controllerValue == $field->conditional_value,
-//                 'not_equals'   => $controllerValue != $field->conditional_value,
-//                 'contains'     => is_array($controllerValue) && in_array($field->conditional_value, $controllerValue),
-//                 'not_contains' => is_array($controllerValue) && !in_array($field->conditional_value, $controllerValue),
-//                 default        => true,
-//             };
-
-//             if (!$conditionMet) {
-//                 continue; // DO NOT validate this field
-//             }
-//         }
-
-//         $ruleParts = [];
-
-//         if ($field->type === 'checkbox' && is_array($field->options)) {
-//             $ruleParts[] = $field->required ? 'required' : 'nullable';
-//             $ruleParts[] = 'array';
-//         } else {
-//             $ruleParts[] = $field->required ? 'required' : 'nullable';
-
-//             if ($field->type === 'email') {
-//                 $ruleParts[] = 'email';
-//             }
-
-//             if ($field->type === 'number') {
-//                 $ruleParts[] = 'numeric';
-//             }
-
-//             if ($field->type === 'date') {
-//                 $ruleParts[] = 'date';
-//             }
-//         }
-
-//         $rules[$name] = implode('|', $ruleParts);
-//         $niceNames[$name] = $field->label;
-//     }
-
-//     $validated = $request->validate($rules, [], $niceNames);
-
-//     FormSubmission::create([
-//         'form_id'    => $form->id,
-//         'event_id'   => $event->id,
-//         'data'       => $validated,
-//         'ip_address' => $request->ip(),
-//         'user_agent' => $request->userAgent(),
-//     ]);
-
-//     return redirect()->back()->with(
-//         'success',
-//         $form->success_message ?: 'Thanks — registration received.'
-//     );
-// }
-
-
-
-
 public function submit(Request $request, $slug)
 {
     $event = Event::where('slug', $slug)
@@ -197,25 +114,6 @@ public function submit(Request $request, $slug)
                 ->send(new GenericSubmissionMail($subject, nl2br($body)));
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     return back()->with(
