@@ -267,7 +267,7 @@
   </section>
 
   <!-- ================= PACKAGES ================= -->
-  <section id="packages" class="container py-16">
+  {{-- <section id="packages" class="container py-16">
     <div class="flex items-end justify-between mb-6">
       <div>
         <h2 class="text-3xl md:text-4xl font-extrabold">Packages</h2>
@@ -371,7 +371,70 @@
     <div class="mt-8 text-center">
       <a href="#contact" class="inline-flex items-center gap-2 rounded-xl bg-brand-600 text-white px-6 py-3 font-semibold hover:bg-brand-500 transition">Customize Your Package</a>
     </div>
-  </section>
+  </section> --}}
+
+  <!-- ================= PACKAGES ================= -->
+<section id="packages" class="container py-16">
+    <div class="flex items-end justify-between mb-6">
+        <div>
+            <h2 class="text-3xl md:text-4xl font-extrabold">Packages</h2>
+            <p class="mt-2 text-gray-700">
+                Hand-picked routes and experiences across the Northeast.
+            </p>
+        </div>
+
+        {{-- <a href="{{ route('packages.index') }}"
+           class="hidden sm:inline-flex items-center rounded-xl border px-4 py-2 hover:bg-gray-50">
+            View All
+        </a> --}}
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        @foreach($packages as $package)
+            <article
+                class="group rounded-2xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition"
+            >
+                <a href="{{ route('packages.show', $package) }}">
+                    <div class="aspect-[3/4] overflow-hidden">
+                        <img
+                            src="{{ $package->thumbnail_image
+                                ? asset('storage/'.$package->thumbnail_image)
+                                : 'https://via.placeholder.com/400x600' }}"
+                            alt="{{ $package->name }}"
+                            class="w-full h-full object-cover group-hover:scale-105 transition"
+                        />
+                    </div>
+
+                    <div class="p-4">
+                        <h3 class="font-semibold text-slate-900">
+                            {{ $package->name }}
+                        </h3>
+
+                        <p class="text-sm text-gray-600 mt-1 line-clamp-2">
+                            {{ $package->subtitle }}
+                        </p>
+
+                        @if($package->duration_days)
+                            <p class="mt-2 text-xs text-slate-500">
+                                {{ $package->duration_days }} Days
+                            </p>
+                        @endif
+                    </div>
+                </a>
+            </article>
+        @endforeach
+    </div>
+
+    {{-- <div class="mt-8 text-center">
+        <a href="{{ route('packages.index') }}"
+           class="inline-flex items-center gap-2 rounded-xl bg-brand-600 text-white px-6 py-3 font-semibold hover:bg-brand-500 transition">
+            Customize Your Package
+        </a>
+    </div> --}}
+</section>
+
+
+
 <!-- ================= CONTACT INFO & MAP (2-column, animated map) ================= -->
 <section id="contact" class="relative bg-gray-900 text-white w-full">
   <div class="py-16 px-4 md:px-8 lg:px-12 max-w-[1600px] mx-auto">

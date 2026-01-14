@@ -22,6 +22,18 @@
     [x-cloak] { display: none !important; }
 </style>
 
+
+<script src="https://cdn.tiny.cloud/1/qe0w11ef2yqdmwdp4fxge8oymv7upf7jvn7ntg554rimciui/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
+
+
+    {{-- <script>
+      tinymce.init({
+        selector: '#package-description'
+      });
+    </script> --}}
+
+
+
 </head>
 
 <body id="top" class="min-h-screen flex flex-col bg-white text-gray-800">

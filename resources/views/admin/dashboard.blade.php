@@ -134,12 +134,12 @@
 
 
         {{-- Package Management --}}
-        <a href="#"
+        <a href="{{ route('admin.packages.index') }}"
            class="group relative flex flex-col rounded-2xl border border-slate-200 bg-white/80
                   shadow-sm hover:shadow-lg transition-shadow overflow-hidden">
 
 
-            <x-coming-soon-card />
+            {{-- <x-coming-soon-card /> --}}
 
             <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-indigo-500 to-blue-400"></div>
 

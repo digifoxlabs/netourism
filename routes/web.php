@@ -11,7 +11,11 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\FormBuilderController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\FormSubmissionController;
+use App\Http\Controllers\Admin\AdminPackageController;
+use App\Http\Controllers\Admin\AdminPackageItineraryController;
+use App\Http\Controllers\Admin\AdminPackageGalleryController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Client\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,9 +27,15 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('client.home');
-});
+// Route::get('/', function () {
+//     return view('client.home');
+// });
+
+Route::get('/',[HomeController::class, 'index']);
+Route::get('/packages',[HomeController::class, 'packages'])->name('packages.index');
+Route::get('/packages/{package}', [HomeController::class, 'show'])->name('packages.show');
+
+
 
 Route::get('/admin', function () {
     if (Auth::guard('admin')->check()) {
@@ -121,6 +131,15 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     Route::get('submissions/export/excel', [FormSubmissionController::class, 'exportExcel'])->name('submissions.export.excel');
 
     Route::resource('submissions', FormSubmissionController::class)->only(['index','show','edit','update','destroy']);
+
+    // packages
+    Route::resource('packages', AdminPackageController::class);
+
+    Route::get('packages/{package}/itinerary', [AdminPackageItineraryController::class, 'index'])->name('packages.itinerary');
+    Route::post('packages/{package}/itinerary', [AdminPackageItineraryController::class, 'store']);
+
+    Route::post('packages/{package}/gallery', [AdminPackageGalleryController::class, 'store']);
+    Route::delete('packages/gallery/{gallery}', [AdminPackageGalleryController::class, 'destroy']);
 
 
 });

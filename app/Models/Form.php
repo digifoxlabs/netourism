@@ -37,4 +37,14 @@ class Form extends Model
     {
      return $this->hasMany(FormSubmission::class);
     }
+
+    public function packages()
+    {
+        return $this->hasMany(Package::class);
+    }
+
+
+
+
+
 }
