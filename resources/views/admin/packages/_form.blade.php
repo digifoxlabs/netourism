@@ -12,6 +12,19 @@
         </div>
     </div>
 
+    @if ($errors->any())
+    <div class="mb-4 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
+        <p class="font-semibold mb-2">
+            Please fix the errors below:
+        </p>
+        <ul class="list-disc list-inside space-y-1">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <form action="{{ $action }}" method="POST" enctype="multipart/form-data" @submit="serializeItinerary"
         class="bg-white rounded-2xl border border-slate-200 shadow-sm space-y-8">
         @csrf

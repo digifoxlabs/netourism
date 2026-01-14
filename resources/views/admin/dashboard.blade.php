@@ -192,7 +192,7 @@
         </a>
 
         {{-- Booking Enquiry --}}
-        <a href="#"
+        {{-- <a href="#"
            class="group relative flex flex-col rounded-2xl border border-slate-200 bg-white/80
                   shadow-sm hover:shadow-lg transition-shadow overflow-hidden">
 
@@ -204,7 +204,7 @@
                     <div
                         class="inline-flex h-12 w-12 items-center justify-center rounded-xl
                                bg-emerald-100 text-emerald-600 group-hover:bg-emerald-200">
-                        {{-- Icon --}}
+             
                         <svg xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 24 24"
                              fill="none"
@@ -243,7 +243,7 @@
                     </svg>
                 </span>
             </div>
-        </a>
+        </a> --}}
     </div>
 </div>
 

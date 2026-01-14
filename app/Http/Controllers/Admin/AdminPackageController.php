@@ -155,6 +155,9 @@ class AdminPackageController extends Controller
         //Form
        // $data['form_id'] = $request->form_id;
 
+       $data['is_active'] = $request->boolean('is_active');
+
+
 
         $package->update($data);
 
@@ -214,7 +217,7 @@ class AdminPackageController extends Controller
             'description'    => 'nullable|string',
             'duration_days'  => 'nullable|integer|min:1',
             'is_active'      => 'nullable|boolean',
-            'itinerary_json'      => 'nullable|json',
+            'itinerary_json' => 'nullable|json',
             'form_id'       => ['nullable', 'exists:forms,id'], // ✅ REQUIRED
         ]);
     }
