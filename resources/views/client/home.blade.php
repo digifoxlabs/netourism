@@ -266,115 +266,10 @@
     </div>
   </section>
 
-  <!-- ================= PACKAGES ================= -->
-  {{-- <section id="packages" class="container py-16">
-    <div class="flex items-end justify-between mb-6">
-      <div>
-        <h2 class="text-3xl md:text-4xl font-extrabold">Packages</h2>
-        <p class="mt-2 text-gray-700">Hand-picked routes and experiences across the Northeast.</p>
-      </div>
-      <a href="#contact" class="hidden sm:inline-flex items-center rounded-xl border px-4 py-2 hover:bg-gray-50">View All</a>
-    </div>
 
-    <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      <article class="group rounded-2xl overflow-hidden border bg-white shadow-sm">
-        <div class="aspect-[3/4] overflow-hidden">
-          <img class="w-full h-full object-cover group-hover:scale-105 transition" src="images/meghalaya.jpg" alt="Meghalaya waterfalls" />
-        </div>
-        <div class="p-4">
-          <h3 class="font-semibold">Meghalaya Explorer</h3>
-          <p class="text-sm text-gray-600 mt-1">Waterfalls • Caves • Living Root Bridges</p>
-        </div>
-      </article>
-
-      <article class="group rounded-2xl overflow-hidden border bg-white shadow-sm">
-        <div class="aspect-[3/4] overflow-hidden">
-          <img class="w-full h-full object-cover group-hover:scale-105 transition" src="images/assam.jpg" alt="Kaziranga Safari" />
-        </div>
-        <div class="p-4">
-          <h3 class="font-semibold">Assam Safari</h3>
-          <p class="text-sm text-gray-600 mt-1">Kaziranga • Tea Gardens • River Cruise</p>
-        </div>
-      </article>
-
-      <article class="group rounded-2xl overflow-hidden border bg-white shadow-sm">
-        <div class="aspect-[3/4] overflow-hidden">
-          <img class="w-full h-full object-cover group-hover:scale-105 transition" src="images/arunachal.jpg" alt="Arunachal mountains" />
-        </div>
-        <div class="p-4">
-          <h3 class="font-semibold">Arunachal Peaks</h3>
-          <p class="text-sm text-gray-600 mt-1">Monasteries • High Passes • Snow Views</p>
-        </div>
-      </article>
-
-      <article class="group rounded-2xl overflow-hidden border bg-white shadow-sm">
-        <div class="aspect-[3/4] overflow-hidden">
-          <img class="w-full h-full object-cover group-hover:scale-105 transition" src="images/nagaland.jpg" alt="Nagaland festival" />
-        </div>
-        <div class="p-4">
-          <h3 class="font-semibold">Nagaland Festivals</h3>
-          <p class="text-sm text-gray-600 mt-1">Hornbill • Heritage • Hills</p>
-        </div>
-      </article>
-
-      <article class="group rounded-2xl overflow-hidden border bg-white shadow-sm">
-        <div class="aspect-[3/4] overflow-hidden">
-          <img class="w-full h-full object-cover group-hover:scale-105 transition" src="images/manipur.jpg" alt="Manipur lake" />
-        </div>
-        <div class="p-4">
-          <h3 class="font-semibold">Manipur Serenity</h3>
-          <p class="text-sm text-gray-600 mt-1">Loktak Lake • Culture • Crafts</p>
-        </div>
-      </article>
-
-      <article class="group rounded-2xl overflow-hidden border bg-white shadow-sm">
-        <div class="aspect-[3/4] overflow-hidden">
-          <img class="w-full h-full object-cover group-hover:scale-105 transition" src="images/mizoram.jpg" alt="Mizoram hills" />
-        </div>
-        <div class="p-4">
-          <h3 class="font-semibold">Mizoram Trails</h3>
-          <p class="text-sm text-gray-600 mt-1">Hills • Villages • Cuisine</p>
-        </div>
-      </article>
-
-      <article class="group rounded-2xl overflow-hidden border bg-white shadow-sm">
-        <div class="aspect-[3/4] overflow-hidden">
-          <img class="w-full h-full object-cover group-hover:scale-105 transition" src="images/tripura.jpg" alt="Tripura palace" />
-        </div>
-        <div class="p-4">
-          <h3 class="font-semibold">Tripura Heritage</h3>
-          <p class="text-sm text-gray-600 mt-1">Palaces • Temples • Forests</p>
-        </div>
-      </article>
-
-      <article class="group rounded-2xl overflow-hidden border bg-white shadow-sm">
-        <div class="aspect-[3/4] overflow-hidden">
-          <img class="w-full h-full object-cover group-hover:scale-105 transition" src="images/bhutan.jpg" alt="Bhutan" />
-        </div>
-        <div class="p-4">
-          <h3 class="font-semibold">Bhutan</h3>
-          <p class="text-sm text-gray-600 mt-1">Signature highlights across all states</p>
-        </div>
-      </article>
-
-      <article class="group rounded-2xl overflow-hidden border bg-white shadow-sm">
-        <div class="aspect-[3/4] overflow-hidden">
-          <img class="w-full h-full object-cover group-hover:scale-105 transition" src="images/sikkim.jpg" alt="Sikkim" />
-        </div>
-        <div class="p-4">
-          <h3 class="font-semibold">Sikkim</h3>
-          <p class="text-sm text-gray-600 mt-1">Signature highlights across all states</p>
-        </div>
-      </article>
-    </div>
-
-    <div class="mt-8 text-center">
-      <a href="#contact" class="inline-flex items-center gap-2 rounded-xl bg-brand-600 text-white px-6 py-3 font-semibold hover:bg-brand-500 transition">Customize Your Package</a>
-    </div>
-  </section> --}}
 
   <!-- ================= PACKAGES ================= -->
-<section id="packages" class="container py-16">
+{{-- <section id="packages" class="container py-16">
     <div class="flex items-end justify-between mb-6">
         <div>
             <h2 class="text-3xl md:text-4xl font-extrabold">Packages</h2>
@@ -383,10 +278,6 @@
             </p>
         </div>
 
-        {{-- <a href="{{ route('packages.index') }}"
-           class="hidden sm:inline-flex items-center rounded-xl border px-4 py-2 hover:bg-gray-50">
-            View All
-        </a> --}}
     </div>
 
     <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -424,14 +315,133 @@
             </article>
         @endforeach
     </div>
+</section> --}}
 
-    {{-- <div class="mt-8 text-center">
-        <a href="{{ route('packages.index') }}"
-           class="inline-flex items-center gap-2 rounded-xl bg-brand-600 text-white px-6 py-3 font-semibold hover:bg-brand-500 transition">
-            Customize Your Package
-        </a>
-    </div> --}}
+<!-- ================= PACKAGES ================= -->
+{{-- <section id="packages" class="container py-12">
+    <div class="flex items-end justify-between mb-5">
+        <div>
+            <h2 class="text-2xl md:text-3xl font-extrabold">Packages</h2>
+            <p class="mt-1 text-sm text-gray-600">
+                Hand-picked routes and experiences across the Northeast.
+            </p>
+        </div>
+    </div>
+
+    <div class="grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        @foreach($packages as $package)
+            <article
+                class="group relative overflow-hidden rounded-xl border bg-white
+                       transition-all duration-300
+                       hover:-translate-y-1 hover:shadow-lg"
+            >
+                <a href="{{ route('packages.show', $package) }}" class="block">
+
+                
+                    <div class="relative aspect-[2/3] overflow-hidden">
+                        <img
+                            src="{{ $package->thumbnail_image
+                                ? asset('storage/'.$package->thumbnail_image)
+                                : 'https://via.placeholder.com/400x600' }}"
+                            alt="{{ $package->name }}"
+                            class="h-full w-full object-cover
+                                   transition-transform duration-500
+                                   group-hover:scale-110"
+                        >
+
+                    
+                        <div
+                            class="absolute inset-0 bg-black/0
+                                   transition group-hover:bg-black/10"
+                        ></div>
+                    </div>
+
+              
+                    <div class="p-3">
+                        <h3 class="text-sm font-semibold text-slate-900 leading-snug">
+                            {{ $package->name }}
+                        </h3>
+
+                        <p class="mt-1 text-xs text-gray-600 line-clamp-2">
+                            {{ $package->subtitle }}
+                        </p>
+
+                        @if($package->duration_days)
+                            <p class="mt-2 text-[11px] font-medium text-slate-500">
+                                {{ $package->duration_days }} Days
+                            </p>
+                        @endif
+                    </div>
+
+                </a>
+            </article>
+        @endforeach
+    </div>
+</section> --}}
+
+
+<!-- ================= PACKAGES ================= -->
+<section id="packages" class="container py-12">
+    <div class="flex items-end justify-between mb-5">
+        <div>
+            <h2 class="text-2xl md:text-3xl font-extrabold">Packages</h2>
+            <p class="mt-1 text-sm text-gray-600">
+                Hand-picked routes and experiences across the Northeast.
+            </p>
+        </div>
+    </div>
+
+    <div class="grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        @foreach($packages as $package)
+            <article
+                class="group relative overflow-hidden rounded-xl border bg-white
+                       transition-all duration-300
+                       hover:-translate-y-1 hover:shadow-lg"
+            >
+                <a href="{{ route('packages.show', $package) }}" class="block">
+
+                    {{-- Image (reduced height) --}}
+                    <div class="relative h-48 overflow-hidden">
+                        <img
+                            src="{{ $package->thumbnail_image
+                                ? asset('storage/'.$package->thumbnail_image)
+                                : 'https://via.placeholder.com/400x600' }}"
+                            alt="{{ $package->name }}"
+                            class="h-full w-full object-cover
+                                   transition-transform duration-500
+                                   group-hover:scale-110"
+                        >
+
+                        {{-- Hover overlay --}}
+                        <div
+                            class="absolute inset-0 bg-black/0
+                                   transition group-hover:bg-black/10"
+                        ></div>
+                    </div>
+
+                    {{-- Content --}}
+                    <div class="p-3">
+                        <h3 class="text-sm font-semibold text-slate-900 leading-snug">
+                            {{ $package->name }}
+                        </h3>
+
+                        <p class="mt-1 text-xs text-gray-600 line-clamp-2">
+                            {{ $package->subtitle }}
+                        </p>
+
+                        @if($package->duration_days)
+                            <p class="mt-2 text-[11px] font-medium text-slate-500">
+                                {{ $package->duration_days }} Days
+                            </p>
+                        @endif
+                    </div>
+
+                </a>
+            </article>
+        @endforeach
+    </div>
 </section>
+
 
 
 

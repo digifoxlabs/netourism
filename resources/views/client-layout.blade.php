@@ -48,14 +48,82 @@
   <!-- ================= FOOTER ================= -->
   <footer class="mt-auto border-t border-gray-200">
     <div class="container py-8 grid gap-8 md:grid-cols-3">
-      <div>
+      {{-- <div>
         <div class="inline-flex items-center gap-2 font-semibold text-lg">
           <img src="/images/logo.jpeg" alt="Logo" class="h-10 w-auto" />
           <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 4.5v9L12 21 3 16.5v-9L12 3z"/></svg> -->
           <span>NE Tourism</span>
         </div>
         <p class="mt-3 text-gray-600">© <span id="year"></span> NE Tourism All rights reserved.</p>
-      </div>
+      </div> --}}
+
+<div>
+    <div class="inline-flex items-center gap-2 font-semibold text-lg">
+        <img src="/images/logo.jpeg" alt="Logo" class="h-10 w-auto" />
+        <span>NE Tourism</span>
+    </div>
+
+    <p class="mt-3 text-gray-600">
+        © <span id="year"></span> NE Tourism. All rights reserved.
+    </p>
+
+    {{-- Social Links --}}
+    <div class="mt-5 flex items-center gap-4">
+
+        {{-- Facebook --}}
+        <div class="relative group">
+            <a href="https://www.facebook.com/share/14SUZJnkkrg/?mibextid=wwXIfr"
+               target="_blank"
+               rel="noopener"
+               class="flex h-11 w-11 items-center justify-center rounded-full
+                      bg-blue-600 text-white shadow-sm transition
+                      hover:-translate-y-1 hover:shadow-lg hover:bg-blue-500">
+
+                <i class="fa-brands fa-facebook-f text-lg"></i>
+            </a>
+
+            {{-- Tooltip --}}
+            <span
+                class="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2
+                       rounded-md bg-slate-900 px-2 py-1 text-[11px] text-white
+                       opacity-0 transition
+                       group-hover:opacity-100"
+            >
+                Facebook
+            </span>
+        </div>
+
+        {{-- Instagram --}}
+        <div class="relative group">
+            <a href="https://www.instagram.com/_netourism?igsh=eHNpaHBnZW1nd2Ft&utm_source=qr"
+               target="_blank"
+               rel="noopener"
+               class="flex h-11 w-11 items-center justify-center rounded-full
+                      bg-gradient-to-tr from-pink-500 via-purple-500 to-yellow-400
+                      text-white shadow-sm transition
+                      hover:-translate-y-1 hover:shadow-lg hover:scale-105">
+
+                <i class="fa-brands fa-instagram text-lg"></i>
+            </a>
+
+            {{-- Tooltip --}}
+            <span
+                class="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2
+                       rounded-md bg-slate-900 px-2 py-1 text-[11px] text-white
+                       opacity-0 transition
+                       group-hover:opacity-100"
+            >
+                Instagram
+            </span>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
       <div class="md:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-6">
         <div>
           <h4 class="font-semibold">Product</h4>
