@@ -48,14 +48,6 @@
   <!-- ================= FOOTER ================= -->
   <footer class="mt-auto border-t border-gray-200">
     <div class="container py-8 grid gap-8 md:grid-cols-3">
-      {{-- <div>
-        <div class="inline-flex items-center gap-2 font-semibold text-lg">
-          <img src="/images/logo.jpeg" alt="Logo" class="h-10 w-auto" />
-          <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 4.5v9L12 21 3 16.5v-9L12 3z"/></svg> -->
-          <span>NE Tourism</span>
-        </div>
-        <p class="mt-3 text-gray-600">© <span id="year"></span> NE Tourism All rights reserved.</p>
-      </div> --}}
 
 <div>
     <div class="inline-flex items-center gap-2 font-semibold text-lg">
