@@ -114,7 +114,7 @@
 
         <div class="md:col-span-2">
             <label class="block text-sm font-medium text-slate-800">Description</label>
-            <textarea name="description" rows="4" class="mt-1 block w-full rounded-lg border px-3">{{ old('description', $event->description ?? '') }}</textarea>
+            <textarea id="event-description" name="description" rows="4" class="mt-1 block w-full rounded-lg border px-3">{{ old('description', $event->description ?? '') }}</textarea>
         </div>
 
         <div>

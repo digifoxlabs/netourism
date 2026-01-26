@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Package;
+use App\Models\Event;
 
 class HomeController extends Controller
 {
@@ -16,7 +17,11 @@ class HomeController extends Controller
             ->take(9) // same count as your static grid
             ->get();
 
-        return view('client.home', compact('packages'));
+     $activeEvents = Event::where('status', 'active')
+        ->orderBy('start_date')
+        ->get();
+
+        return view('client.home', compact('packages','activeEvents'));
     }
 
 
@@ -25,6 +30,8 @@ class HomeController extends Controller
         $packages = Package::where('is_active', true)
             ->orderBy('created_at', 'desc')
             ->paginate(12);
+
+
 
         return view('client.packages.index', compact('packages'));
     }

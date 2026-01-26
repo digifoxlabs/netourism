@@ -71,7 +71,7 @@
                     </div>
 
                     <p class="mt-4 text-slate-700 text-sm leading-relaxed">
-                        {{ $event->description }}
+                        {!! $event->description !!}
                     </p>
                 </div>
             </div>

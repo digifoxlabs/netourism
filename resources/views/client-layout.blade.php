@@ -28,6 +28,20 @@
   </style>
   <style>
     [x-cloak] { display: none !important; }
+
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+
+
+
+
 </style>
 
 </head>
@@ -560,6 +574,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     });
 </script>
+
+
+
 
 
 

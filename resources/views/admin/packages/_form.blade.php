@@ -101,14 +101,6 @@
 
 
 
-
-
-
-
-
-
-
-
         {{-- ================= DESCRIPTION ================= --}}
         <section class="px-6 space-y-3">
             <h2 class="text-sm font-semibold text-slate-800 uppercase tracking-wide">

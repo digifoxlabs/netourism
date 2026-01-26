@@ -65,7 +65,7 @@
                 </button>
 
                 {{-- Modal --}}
-                <div x-show="open" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+                {{-- <div x-show="open" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
                     <div @click.outside="open = false"
                         class="relative w-full max-w-3xl rounded-2xl bg-white p-6 shadow-xl">
                         <button @click="open = false"
@@ -77,7 +77,6 @@
                             Enquire about {{ $package->name }}
                         </h2>
 
-                        {{-- FORM RENDER --}}
                         @if($form)
                         @include('client.forms._render', [
                         'form' => $form,
@@ -91,7 +90,58 @@
                         </div>
                         @endif
                     </div>
+                </div> --}}
+
+
+{{-- Modal --}}
+<div
+    x-show="open"
+    x-transition.opacity
+    x-cloak
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-3 sm:px-6"
+>
+    <div
+        @click.outside="open = true"
+        class="relative w-full max-w-3xl bg-white rounded-2xl shadow-xl
+               max-h-[90vh] flex flex-col overflow-hidden"
+    >
+
+        {{-- Header --}}
+        <div class="sticky top-0 z-10 flex items-center justify-between
+                    border-b bg-white px-6 py-4">
+            <h2 class="text-sm font-semibold">
+                Enquire about {{ $package->name }}
+            </h2>
+
+            <button
+                @click="open = false"
+                class="text-slate-400 hover:text-slate-700 text-2xl leading-none"
+                aria-label="Close"
+            >
+                &times;
+            </button>
+        </div>
+
+        {{-- Scrollable Content --}}
+        <div class="flex-1 overflow-y-auto px-6 py-4">
+            @if($form)
+                @include('client.forms._render', [
+                    'form' => $form,
+                    'sections' => $sections,
+                    'action' => route('forms.submit',$package->form->slug),
+                    'enable_conditional_js' => true,
+                ])
+            @else
+                <div class="rounded-lg border bg-slate-50 p-4 text-sm text-slate-600">
+                    Enquiry form is not available for this package.
                 </div>
+            @endif
+        </div>
+
+    </div>
+</div>
+
+
             </div>
             @endif
 

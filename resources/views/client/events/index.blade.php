@@ -5,8 +5,6 @@
 <div class="max-w-6xl mx-auto px-4 py-8">
 
 
-   <h2>hello</h2>
-
     {{-- Page Header --}}
     <header class="mb-8">
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
