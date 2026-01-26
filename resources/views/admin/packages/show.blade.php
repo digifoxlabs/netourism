@@ -76,7 +76,7 @@
             Package Description
         </h2>
 
-        <div class="prose prose-slate max-w-none text-sm">
+        <div class="rich-content prose prose-slate max-w-none text-sm">
             {!! $package->description !!}
         </div>
     </section>
@@ -95,8 +95,8 @@
                     </strong>
                 </div>
 
-                <p class="text-sm text-slate-700 leading-relaxed">
-                    {{ $day['description'] ?? '' }}
+                <p class=" rich-content text-sm text-slate-700 leading-relaxed">
+                    {!! $day['description'] ?? '' !!}
                 </p>
             </div>
         @empty

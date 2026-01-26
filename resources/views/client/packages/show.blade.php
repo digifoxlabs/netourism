@@ -21,7 +21,7 @@
                 {{ $package->subtitle }}
             </p>
 
-            <div class="prose max-w-none">
+            <div class="rich-content prose max-w-none">
                 {!! $package->description !!}
             </div>
 
@@ -35,8 +35,8 @@
                     <h3 class="font-semibold">
                         Day {{ $i + 1 }} – {{ $day['title'] }}
                     </h3>
-                    <p class="text-sm text-slate-600 mt-1">
-                        {{ $day['description'] }}
+                    <p class="rich-content text-slate-700 mt-1">
+                        {!! $day['description'] !!}
                     </p>
                 </div>
                 @endforeach

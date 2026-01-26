@@ -72,12 +72,19 @@
                     <label class="block text-[11px] font-medium text-slate-700 mb-1">
                         Description
                     </label>
-                    <textarea
+                    {{-- <textarea
                         x-model="day.description"
                         rows="4"
                         class="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
                         placeholder="Detailed activities, sightseeing, meals, overnight stay, etc."
-                    ></textarea>
+                    ></textarea> --}}
+
+                    <textarea :id="'itinerary-desc-' + index" x-model="day.description" rows="4"
+                        class="itinerary-editor block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm"
+                        placeholder="Detailed activities, sightseeing, meals, overnight stay, etc."></textarea>
+
+
+
                 </div>
 
             </div>

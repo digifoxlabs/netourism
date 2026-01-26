@@ -11,7 +11,7 @@
 
 @push('scripts')
 
-<script>
+{{-- <script>
 function packageBuilder(pkg) {
     return {
         name: pkg?.name ?? '',
@@ -35,7 +35,115 @@ function packageBuilder(pkg) {
         }
     }
 }
+</script> --}}
+
+<script>
+function packageBuilder(pkg) {
+    return {
+        name: pkg?.name ?? '',
+        subtitle: pkg?.subtitle ?? '',
+        duration_days: pkg?.duration_days ?? '',
+        is_active: pkg?.is_active ?? true,
+
+        itinerary: pkg?.itineraries ?? [],
+        itineraryJson: '',
+
+        init() {
+            this.$nextTick(() => {
+                this.initEditors();
+            });
+        },
+
+        addDay() {
+            this.itinerary.push({ title: '', description: '' });
+
+            this.$nextTick(() => {
+                const index = this.itinerary.length - 1;
+                this.initEditorFor(index);
+            });
+        },
+
+        removeDay(index) {
+            const editorId = 'itinerary-desc-' + index;
+
+            if (tinymce.get(editorId)) {
+                tinymce.get(editorId).remove();
+            }
+
+            this.itinerary.splice(index, 1);
+
+            this.$nextTick(() => {
+                this.reIndexEditors();
+            });
+        },
+
+        serializeItinerary() {
+            // Sync TinyMCE → textarea → Alpine
+            // tinymce.editors.forEach(editor => editor.save());
+
+            this.itineraryJson = JSON.stringify(this.itinerary);
+        },
+
+        initEditors() {
+            this.itinerary.forEach((_, index) => {
+                this.initEditorFor(index);
+            });
+        },
+
+        initEditorFor(index) {
+            const id = 'itinerary-desc-' + index;
+
+            if (tinymce.get(id)) return;
+
+            tinymce.init({
+                selector: `#${id}`,
+                height: 160,
+                menubar: false,
+                branding: false,
+                plugins: 'lists link',
+                toolbar:
+                    'undo redo | blocks | fontfamily | ' +
+                    'bold italic underline | ' +
+                    'alignleft aligncenter alignright | ' +
+                    'bullist numlist | link | removeformat',
+
+                /* Heading support: H1–H6 + Paragraph */
+                block_formats:
+                    'Paragraph=p;' +
+                    'Heading 1=h1;' +
+                    'Heading 2=h2;' +
+                    'Heading 3=h3;' +
+                    'Heading 4=h4;' +
+                    'Heading 5=h5;' +
+                    'Heading 6=h6',
+
+                /* Font family dropdown */
+                font_family_formats:
+                    'Arial=arial,helvetica,sans-serif;' +
+                    'Georgia=georgia,palatino,serif;' +
+                    'Times New Roman=times new roman,times,serif;' +
+                    'Poppins=poppins,sans-serif;' +
+                    'Roboto=roboto,sans-serif;' +
+                    'Courier New=courier new,courier,monospace',
+                setup(editor) {
+                    editor.on('change keyup', () => {
+                        editor.save();
+                    });
+                }
+            });
+        },
+
+        reIndexEditors() {
+            tinymce.remove('.itinerary-editor');
+
+            this.$nextTick(() => {
+                this.initEditors();
+            });
+        }
+    }
+}
 </script>
+
 
 
 
@@ -77,6 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
 
 
 

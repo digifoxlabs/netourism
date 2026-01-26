@@ -44,6 +44,46 @@
 
 </style>
 
+
+
+<style>
+/* Scoped typography styles */
+.rich-content h1 { font-size: 1.5rem; font-weight: 700; margin: 1rem 0; }
+.rich-content h2 { font-size: 1.25rem; font-weight: 600; margin: 0.75rem 0; }
+.rich-content h3 { font-size: 1.125rem; font-weight: 600; margin: 0.5rem 0; }
+
+.rich-content p { margin: 0.5rem 0; line-height: 1.6; }
+
+.rich-content ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+.rich-content ol {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+.rich-content li {
+    margin: 0.25rem 0;
+}
+
+.rich-content a {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+.rich-content strong { font-weight: 700; }
+.rich-content em { font-style: italic; }
+</style>
+
+
+
+
+
+
 </head>
 
 <body id="top" class="min-h-screen flex flex-col bg-white text-gray-800">
