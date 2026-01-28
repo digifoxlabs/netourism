@@ -105,7 +105,7 @@
 
 <div>
     <div class="inline-flex items-center gap-2 font-semibold text-lg">
-        <img src="/images/logo.jpeg" alt="Logo" class="h-10 w-auto" />
+        <img src="{{  asset('/images/logo_n.jpeg') }}?v=1.1" alt="Logo" class="h-10 w-auto" />
         <span>NE Tourism</span>
     </div>
 

@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between h-16">
       <!-- Logo -->
       <a href="{{ url('/') }}" class="inline-flex items-center gap-2 font-semibold text-lg">
-        <img src="/images/logo.jpeg" alt="Logo" class="h-10 w-auto" />
+        <img src="{{ asset('/images/logo_n.jpeg') }}?v=1.1" alt="Logo" class="h-10 w-auto" />
         <span>NE Tourism</span>
       </a>
 
@@ -53,7 +53,7 @@
                 -translate-x-full transform transition-transform duration-300 will-change-transform z-50">
     <div class="p-4 flex items-center justify-between border-b bg-white">
       <div class="inline-flex items-center gap-2 font-semibold text-lg">
-        <img src="/images/logo.jpeg" alt="Logo" class="h-10 w-auto" />
+        <img src="{{ asset('/images/logo_n.jpeg') }}?v=1.1" alt="Logo" class="h-10 w-auto" />
         <span>NE Tourism</span>
       </div>
       <button id="closeDrawerBtn"
