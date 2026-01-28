@@ -96,7 +96,7 @@
                         </div>
 
                         <p class="mt-3 text-sm text-slate-700 line-clamp-3">
-                            {{ Str::limit($event->description, 140) }}
+                            {!! Str::limit($event->description, 140) !!}
                         </p>
 
                         <div class="mt-4 flex items-center justify-between">
@@ -191,7 +191,7 @@
                         </div>
 
                         <p class="mt-3 text-sm text-slate-700 line-clamp-3">
-                            {{ Str::limit($event->description, 140) }}
+                            {!! Str::limit($event->description, 140) !!}
                         </p>
 
                         <div class="mt-4 flex items-center justify-between">
@@ -300,7 +300,7 @@
                 </div>
 
                 <p class="mt-3 text-sm text-slate-700 line-clamp-3">
-                    {{ Str::limit($event->description, 140) }}
+                    {!! Str::limit($event->description, 140) !!}
                 </p>
 
                 <div class="mt-4 flex items-center justify-between text-xs text-slate-600">
