@@ -63,7 +63,7 @@
                                 {{ optional($event->end_date)->format('d M Y') }}
                             </div>
                             <div class="text-[11px] text-slate-200">
-                                {{ $event->subtitle }}
+                                {!! $event->subtitle !!}
                             </div>
                         </div>
                     </a>

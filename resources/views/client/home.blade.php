@@ -784,14 +784,14 @@
         <!-- Google Map with Marker via Coordinates -->
         <div class="w-full aspect-[16/8] map-animate">
           <iframe class="w-full h-full border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps?q=26.162531399228907,91.67838533836319&z=17&output=embed"
+            src="https://www.google.com/maps?q=26.143209521651826,91.67946121349418&z=17&output=embed"
             title="NE Tourism - Office Coordinates">
           </iframe>
         </div>
 
         <div class="p-4 text-sm text-white/80 bg-white/5 border-t border-white/5">
           <p>Open in
-            <a href="https://www.google.com/maps/search/?api=1&query=26.162531399228907,91.67838533836319"
+            <a href="https://www.google.com/maps/search/?api=1&query=26.143209521651826,91.67946121349418"
               target="_blank" rel="noopener noreferrer" class="underline">Google Maps</a>
           </p>
         </div>
