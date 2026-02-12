@@ -17,11 +17,15 @@ class HomeController extends Controller
             ->take(9) // same count as your static grid
             ->get();
 
-     $activeEvents = Event::where('status', 'active')
-        ->orderBy('start_date')
-        ->get();
+        $activeEvents = Event::where('status', 'active')
+            ->orderBy('start_date')
+            ->get();
 
-        return view('client.home', compact('packages','activeEvents'));
+        $upcomingEvents = Event::where('status', 'upcoming')
+            ->orderBy('start_date')
+            ->get();
+
+        return view('client.home', compact('packages', 'activeEvents', 'upcomingEvents'));
     }
 
 

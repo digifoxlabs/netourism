@@ -163,6 +163,19 @@ class EventController extends Controller
         return redirect()->route('admin.events.index')->with('success', 'Event updated.');
     }
 
+    public function uploadEditorImage(Request $request)
+    {
+        $request->validate([
+            'file' => ['required', 'image', 'max:5120'],
+        ]);
+
+        $path = $request->file('file')->store('events/editor', 'public');
+
+        return response()->json([
+            'location' => Storage::url($path),
+        ]);
+    }
+
     public function destroy(Event $event)
     {
         if ($event->photo_path) {

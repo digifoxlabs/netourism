@@ -475,6 +475,90 @@
 
 
 
+<!-- ================= UPCOMING EVENTS ================= -->
+<section id="upcoming-events" class="container pb-16">
+
+    {{-- Section header --}}
+    <div class="flex items-end justify-between mb-6">
+        <div>
+            <h2 class="text-3xl md:text-4xl font-extrabold">
+                Upcoming Events
+            </h2>
+            <p class="mt-2 text-gray-700">
+                Plan ahead and reserve your spot for what's coming next.
+            </p>
+        </div>
+    </div>
+
+    @if($upcomingEvents->isEmpty())
+        <div class="rounded-xl border bg-slate-50 p-6 text-center text-slate-600">
+            No upcoming events right now. Please check back soon.
+        </div>
+    @else
+        <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+
+            @foreach($upcomingEvents as $event)
+                <article
+                    class="group rounded-2xl overflow-hidden border bg-white shadow-sm
+                           hover:shadow-md hover:-translate-y-1 transition"
+                >
+                    <a href="{{ route('events.show', $event->slug) }}">
+
+                        {{-- Image --}}
+                        <div class="relative aspect-[4/3] overflow-hidden">
+                            <img
+                                src="{{ $event->photo_path
+                                    ? asset('storage/'.$event->photo_path)
+                                    : 'https://images.pexels.com/photos/1005417/pexels-photo-1005417.jpeg' }}"
+                                alt="{{ $event->title }}"
+                                class="w-full h-full object-cover group-hover:scale-105 transition"
+                            >
+
+                            {{-- Upcoming badge --}}
+                            <span
+                                class="absolute top-3 left-3 inline-flex items-center gap-1
+                                       rounded-full bg-amber-500 px-3 py-1
+                                       text-[11px] font-semibold text-white shadow"
+                            >
+                                Upcoming
+                            </span>
+                        </div>
+
+                        {{-- Content --}}
+                        <div class="p-4 space-y-2">
+                            <h3 class="font-semibold text-slate-900 line-clamp-2">
+                                {{ $event->title }}
+                            </h3>
+
+                            @if($event->subtitle)
+                                <p class="text-sm text-slate-600 line-clamp-2">
+                                    {{ $event->subtitle }}
+                                </p>
+                            @endif
+
+                            <div class="flex items-center justify-between text-xs text-slate-500 mt-3">
+                                <span>
+                                    {{ optional($event->start_date)->format('d M') }}
+                                    –
+                                    {{ optional($event->end_date)->format('d M Y') }}
+                                </span>
+
+                                @if($event->fee)
+                                    <span class="font-medium text-slate-700">
+                                        ₹{{ $event->fee }}
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            @endforeach
+
+        </div>
+    @endif
+
+</section>
+
 <!-- ================= SEVEN SISTERS ================= -->
 <section id="seven-sisters" class="bg-gray-50 border-y">
   <div class="container py-14 relative">

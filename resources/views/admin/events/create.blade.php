@@ -18,18 +18,49 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+
     tinymce.init({
         selector: '#event-description',
         height: 320,
         menubar: false,
 
-        plugins: 'lists link table code',
+        plugins: 'lists link image table code',
 
         toolbar:
             'undo redo | blocks | fontfamily | ' +
             'bold italic underline | ' +
             'alignleft aligncenter alignright | ' +
-            'bullist numlist | link | removeformat',
+            'bullist numlist | link image | removeformat',
+
+        automatic_uploads: true,
+        file_picker_types: 'image',
+        images_upload_handler: (blobInfo) => new Promise((resolve, reject) => {
+            const formData = new FormData();
+            formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+            fetch('{{ route('admin.events.editor-image') }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            })
+            .then(async (response) => {
+                if (!response.ok) {
+                    throw new Error('Image upload failed.');
+                }
+
+                const result = await response.json();
+                if (!result.location) {
+                    throw new Error('Image upload response is invalid.');
+                }
+
+                resolve(result.location);
+            })
+            .catch((error) => reject(error.message));
+        }),
 
         /* Heading support: H1–H6 + Paragraph */
         block_formats:

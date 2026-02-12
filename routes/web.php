@@ -126,6 +126,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
 
 
     Route::resource('events', EventController::class);
+    Route::post('events/editor-image', [EventController::class, 'uploadEditorImage'])
+        ->name('events.editor-image');
     Route::post('/submissions/{submission}/confirm', [FormSubmissionController::class, 'confirm'])->name('submissions.confirm');
     Route::get('submissions/export/csv', [FormSubmissionController::class, 'exportCsv'])->name('submissions.export.csv');
     Route::get('submissions/export/excel', [FormSubmissionController::class, 'exportExcel'])->name('submissions.export.excel');
