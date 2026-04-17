@@ -19,6 +19,63 @@
 
     {{-- Cards Grid --}}
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+
+        {{-- Homepage Slide Show --}}
+        <a href="{{ route('admin.home-page-slides.index') }}"
+           class="group relative flex flex-col rounded-2xl border border-slate-200 bg-white/80
+                  shadow-sm hover:shadow-lg transition-shadow overflow-hidden">
+            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-amber-500 via-orange-500 to-rose-400"></div>
+
+            <div class="flex-1 p-5 flex flex-col gap-4">
+                <div class="flex items-center justify-between gap-3">
+                    <div
+                        class="inline-flex h-12 w-12 items-center justify-center rounded-xl
+                               bg-amber-100 text-amber-600 group-hover:bg-amber-200">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="1.8"
+                             class="h-6 w-6">
+                            <rect x="3" y="5" width="18" height="14" rx="2" />
+                            <path d="M8 10h8M8 14h5" />
+                        </svg>
+                    </div>
+                    <span class="text-xs font-medium uppercase tracking-wide text-amber-600 bg-amber-50 px-2 py-1 rounded-full">
+                        Home
+                    </span>
+                </div>
+
+                <div>
+                    <h2 class="text-lg font-semibold text-slate-900 group-hover:text-amber-600">
+                        Homepage Slide Show
+                    </h2>
+                    <p class="mt-1 text-sm text-slate-500">
+                        Add, crop, sort, edit, and remove hero slides for the public home page.
+                    </p>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-100 bg-slate-50/80 px-5 py-3 flex items-center justify-between text-xs text-slate-500">
+                <span>Manage home slider</span>
+                <span class="inline-flex items-center gap-1 text-amber-600 group-hover:translate-x-0.5 transition-transform">
+                    Manage
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="1.8"
+                         class="h-4 w-4">
+                        <path d="M9 18l6-6-6-6" />
+                    </svg>
+                </span>
+            </div>
+        </a>
+
+
+
+
         {{-- Event Management --}}
         <a href="{{ route('admin.events.index') }}"
            class="group relative flex flex-col rounded-2xl border border-slate-200 bg-white/80
@@ -129,9 +186,6 @@
                 </span>
             </div>
         </a>
-
-
-
 
         {{-- Package Management --}}
         <a href="{{ route('admin.packages.index') }}"

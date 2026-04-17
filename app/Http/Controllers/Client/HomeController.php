@@ -6,11 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\Event;
+use App\Models\HomePageSlide;
 
 class HomeController extends Controller
 {
     public function index()
     {
+        $heroSlides = HomePageSlide::query()
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get();
+
         $packages = Package::query()
             ->where('is_active', true)
             ->orderBy('created_at', 'desc')
@@ -25,7 +31,7 @@ class HomeController extends Controller
             ->orderBy('start_date')
             ->get();
 
-        return view('client.home', compact('packages', 'activeEvents', 'upcomingEvents'));
+        return view('client.home', compact('heroSlides', 'packages', 'activeEvents', 'upcomingEvents'));
     }
 
 

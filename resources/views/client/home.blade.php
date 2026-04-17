@@ -5,34 +5,47 @@
 <!-- ================= HERO SLIDER (FULL WIDTH) ================= -->
 <section class="relative z-0 w-full">
   <div class="relative overflow-hidden bg-gray-100">
+    @php
+      $slides = $heroSlides->isNotEmpty()
+          ? $heroSlides->map(fn ($slide) => [
+              'title' => $slide->title,
+              'subtitle' => $slide->subtitle,
+              'image' => asset('storage/' . $slide->image_path),
+          ])
+          : collect([
+              [
+                  'title' => 'Explore the Untouched Northeast',
+                  'subtitle' => 'From misty mountains to living root bridges—experience landscapes and culture found nowhere else in the world.',
+                  'image' => asset('images/image1.jpg'),
+              ],
+              [
+                  'title' => 'Adventure Meets Serenity',
+                  'subtitle' => 'Curated journeys across mountains, forests, waterfalls, and festivals—crafted for explorers of all kinds.',
+                  'image' => asset('images/image2.jpg'),
+              ],
+              [
+                  'title' => 'Travel Beyond the Ordinary',
+                  'subtitle' => 'Personalized trips with trusted local experts—adventure, culture, wildlife, and pristine natural beauty.',
+                  'image' => asset('images/image3.jpg'),
+              ],
+          ]);
+    @endphp
+
     <div id="sliderTrack" class="flex transition-transform duration-500 ease-out will-change-transform">
-      <div class="relative min-w-full h-[60vh] md:h-[80vh]">
-        <img src="images/image1.jpg" alt="Slide 1" class="absolute inset-0 w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-black/40"></div>
-        <div class="relative z-10 h-full flex flex-col items-start justify-center p-6 md:p-20 text-white">
-          <h1 class="text-3xl md:text-6xl font-extrabold leading-tight">Explore the Untouched Northeast</h1>
-          <p class="mt-4 md:mt-6 text-lg md:text-xl max-w-2xl text-white/90">From misty mountains to living root
-            bridges—experience landscapes and culture found nowhere else in the world.</p>
+      @foreach($slides as $index => $slide)
+        <div class="relative min-w-full h-[60vh] md:h-[80vh]">
+          <img src="{{ $slide['image'] }}" alt="{{ $slide['title'] }}" class="absolute inset-0 w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-black/40"></div>
+          <div class="relative z-10 h-full flex flex-col items-start justify-center p-6 md:p-20 text-white">
+            @if($index === 0)
+              <h1 class="text-3xl md:text-6xl font-extrabold leading-tight">{{ $slide['title'] }}</h1>
+            @else
+              <h2 class="text-3xl md:text-6xl font-extrabold leading-tight">{{ $slide['title'] }}</h2>
+            @endif
+            <p class="mt-4 md:mt-6 text-lg md:text-xl max-w-2xl text-white/90">{{ $slide['subtitle'] }}</p>
+          </div>
         </div>
-      </div>
-      <div class="relative min-w-full h-[60vh] md:h-[80vh]">
-        <img src="images/image2.jpg" alt="Slide 2" class="absolute inset-0 w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-black/40"></div>
-        <div class="relative z-10 h-full flex flex-col items-start justify-center p-6 md:p-20 text-white">
-          <h2 class="text-3xl md:text-6xl font-extrabold leading-tight">Adventure Meets Serenity</h2>
-          <p class="mt-4 md:mt-6 text-lg md:text-xl max-w-2xl text-white/90">Curated journeys across mountains, forests,
-            waterfalls, and festivals—crafted for explorers of all kinds.</p>
-        </div>
-      </div>
-      <div class="relative min-w-full h-[60vh] md:h-[80vh]">
-        <img src="images/image3.jpg" alt="Slide 3" class="absolute inset-0 w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-black/40"></div>
-        <div class="relative z-10 h-full flex flex-col items-start justify-center p-6 md:p-20 text-white">
-          <h2 class="text-3xl md:text-6xl font-extrabold leading-tight">Travel Beyond the Ordinary</h2>
-          <p class="mt-4 md:mt-6 text-lg md:text-xl max-w-2xl text-white/90">Personalized trips with trusted local
-            experts—adventure, culture, wildlife, and pristine natural beauty.</p>
-        </div>
-      </div>
+      @endforeach
     </div>
 
     <button id="prevBtn"
@@ -457,23 +470,6 @@
     @endif
 
 </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!-- ================= UPCOMING EVENTS ================= -->
 <section id="upcoming-events" class="container pb-16">
