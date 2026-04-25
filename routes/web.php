@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\FormBuilderController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\FormSubmissionController;
 use App\Http\Controllers\Admin\AdminPackageController;
+use App\Http\Controllers\Admin\PackageCategoryController;
 use App\Http\Controllers\Admin\AdminPackageItineraryController;
 use App\Http\Controllers\Admin\AdminPackageGalleryController;
 use App\Http\Controllers\Admin\HomePageSlideController;
@@ -141,6 +142,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
 
     // packages
     Route::resource('packages', AdminPackageController::class);
+    Route::resource('package-categories', PackageCategoryController::class)
+        ->except(['show', 'create']);
 
     Route::get('packages/{package}/itinerary', [AdminPackageItineraryController::class, 'index'])->name('packages.itinerary');
     Route::post('packages/{package}/itinerary', [AdminPackageItineraryController::class, 'store']);

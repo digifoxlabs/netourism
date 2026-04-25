@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PackageGallery;
+use App\Models\PackageCategory;
 
 
 class Package extends Model
@@ -12,6 +13,7 @@ class Package extends Model
     protected $fillable = [
         'name',
         'subtitle',
+        'category_id',
         'description',
         'thumbnail_image',
         'hero_image',
@@ -37,6 +39,9 @@ class Package extends Model
         return $this->belongsTo(Form::class);
     }
 
-    
+    public function category()
+    {
+        return $this->belongsTo(PackageCategory::class, 'category_id');
+    }
 
 }

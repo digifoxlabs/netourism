@@ -723,52 +723,103 @@
     <div>
       <h2 class="text-2xl md:text-3xl font-extrabold">Packages</h2>
       <p class="mt-1 text-sm text-gray-600">
-        Hand-picked routes and experiences across the Northeast.
+        Discover packages grouped by category and find the trip that fits best.
       </p>
     </div>
   </div>
 
-  <div class="grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-    @foreach($packages as $package)
-    <article class="group relative overflow-hidden rounded-xl border bg-white
-                       transition-all duration-300
-                       hover:-translate-y-1 hover:shadow-lg">
-      <a href="{{ route('packages.show', $package) }}" class="block">
+  @php($packageLayout = $homeSectionSettings['home_packages_layout'] ?? 'tabs')
 
-        {{-- Image (reduced height) --}}
-        <div class="relative h-48 overflow-hidden">
-          <img src="{{ $package->thumbnail_image
-                                ? asset('storage/'.$package->thumbnail_image)
-                                : 'https://via.placeholder.com/400x600' }}" alt="{{ $package->name }}" class="h-full w-full object-cover
-                                   transition-transform duration-500
-                                   group-hover:scale-110">
+  @if($packageCategories->isEmpty())
+    <div class="rounded-xl border bg-slate-50 p-6 text-center text-slate-600">
+      No packages are available right now. Please check back soon.
+    </div>
+  @elseif($packageLayout === 'grid')
+    <div class="space-y-10">
+      @foreach($packageCategories as $category)
+        <div>
+          <div class="mb-4 flex items-end justify-between gap-4">
+            <div>
+              <h3 class="text-xl md:text-2xl font-bold text-slate-900">{{ $category->name }}</h3>
+              <p class="mt-1 text-sm text-slate-600">{{ $category->packages->count() }} package{{ $category->packages->count() === 1 ? '' : 's' }}</p>
+            </div>
+          </div>
 
-          {{-- Hover overlay --}}
-          <div class="absolute inset-0 bg-black/0
-                                   transition group-hover:bg-black/10"></div>
+          <div class="grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            @foreach($category->packages as $package)
+              <article class="group relative overflow-hidden rounded-xl border bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <a href="{{ route('packages.show', $package) }}" class="block">
+                  <div class="relative h-48 overflow-hidden">
+                    <img src="{{ $package->thumbnail_image ? asset('storage/'.$package->thumbnail_image) : 'https://via.placeholder.com/400x600' }}"
+                      alt="{{ $package->name }}"
+                      class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/0 transition group-hover:bg-black/10"></div>
+                  </div>
+
+                  <div class="p-3">
+                    <h4 class="text-sm font-semibold text-slate-900 leading-snug">{{ $package->name }}</h4>
+                    <p class="mt-1 text-xs text-gray-600 line-clamp-2">{{ $package->subtitle }}</p>
+                    @if($package->duration_days)
+                      <p class="mt-2 text-[11px] font-medium text-slate-500">{{ $package->duration_days }} Days</p>
+                    @endif
+                  </div>
+                </a>
+              </article>
+            @endforeach
+          </div>
         </div>
+      @endforeach
+    </div>
+  @else
+    <div x-data="{ activeCategory: '{{ $packageCategories->first()->slug }}' }" class="space-y-6">
+      <div class="flex flex-wrap gap-3">
+        @foreach($packageCategories as $category)
+          <button
+            type="button"
+            @click="activeCategory = '{{ $category->slug }}'"
+            :class="activeCategory === '{{ $category->slug }}' ? 'bg-brand-600 text-white border-brand-600' : 'bg-white text-slate-700 border-slate-300'"
+            class="rounded-full border px-4 py-2 text-sm font-semibold transition"
+          >
+            {{ $category->name }}
+          </button>
+        @endforeach
+      </div>
 
-        {{-- Content --}}
-        <div class="p-3">
-          <h3 class="text-sm font-semibold text-slate-900 leading-snug">
-            {{ $package->name }}
-          </h3>
+      @foreach($packageCategories as $category)
+        <div x-show="activeCategory === '{{ $category->slug }}'" x-cloak>
+          <div class="mb-4 flex items-end justify-between gap-4">
+            <div>
+              <h3 class="text-xl md:text-2xl font-bold text-slate-900">{{ $category->name }}</h3>
+              <p class="mt-1 text-sm text-slate-600">{{ $category->packages->count() }} package{{ $category->packages->count() === 1 ? '' : 's' }}</p>
+            </div>
+          </div>
 
-          <p class="mt-1 text-xs text-gray-600 line-clamp-2">
-            {{ $package->subtitle }}
-          </p>
+          <div class="grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            @foreach($category->packages as $package)
+              <article class="group relative overflow-hidden rounded-xl border bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <a href="{{ route('packages.show', $package) }}" class="block">
+                  <div class="relative h-48 overflow-hidden">
+                    <img src="{{ $package->thumbnail_image ? asset('storage/'.$package->thumbnail_image) : 'https://via.placeholder.com/400x600' }}"
+                      alt="{{ $package->name }}"
+                      class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/0 transition group-hover:bg-black/10"></div>
+                  </div>
 
-          @if($package->duration_days)
-          <p class="mt-2 text-[11px] font-medium text-slate-500">
-            {{ $package->duration_days }} Days
-          </p>
-          @endif
+                  <div class="p-3">
+                    <h4 class="text-sm font-semibold text-slate-900 leading-snug">{{ $package->name }}</h4>
+                    <p class="mt-1 text-xs text-gray-600 line-clamp-2">{{ $package->subtitle }}</p>
+                    @if($package->duration_days)
+                      <p class="mt-2 text-[11px] font-medium text-slate-500">{{ $package->duration_days }} Days</p>
+                    @endif
+                  </div>
+                </a>
+              </article>
+            @endforeach
+          </div>
         </div>
-
-      </a>
-    </article>
-    @endforeach
-  </div>
+      @endforeach
+    </div>
+  @endif
 </section>
 
 <!-- ================= CONTACT INFO & MAP (2-column, animated map) ================= -->

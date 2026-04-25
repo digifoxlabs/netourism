@@ -21,9 +21,15 @@ class SettingController extends Controller
     {
         $settingsToUpdate = [];
 
-        foreach (array_keys(SiteSetting::HOME_SECTION_DEFAULTS) as $key) {
+        $request->validate([
+            'home_packages_layout' => ['nullable', 'in:tabs,grid'],
+        ]);
+
+        foreach (SiteSetting::HOME_SECTION_DEFAULTS as $key => $defaultValue) {
             if (array_key_exists($key, $request->all())) {
-                $settingsToUpdate[$key] = $request->boolean($key);
+                $settingsToUpdate[$key] = is_bool($defaultValue)
+                    ? $request->boolean($key)
+                    : $request->input($key, $defaultValue);
             }
         }
 

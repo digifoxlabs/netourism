@@ -6,6 +6,7 @@
         'action' => route('admin.packages.store'),
         'method' => 'POST',
         'package' => null,
+        'categories' => $categories,
     ])
 @endsection
 

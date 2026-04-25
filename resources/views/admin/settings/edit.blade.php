@@ -112,6 +112,24 @@
             </div>
         </section>
 
+        <section class="rounded-2xl border bg-white p-6 shadow-sm">
+            <h2 class="text-lg font-semibold text-slate-900">Package Section Layout</h2>
+            <p class="mt-1 text-sm text-slate-600">
+                Choose how package categories are displayed on the client home page.
+            </p>
+
+            <div class="mt-5">
+                <label class="mb-2 block text-sm font-medium text-slate-700">Home package layout</label>
+                <select
+                    name="home_packages_layout"
+                    class="h-11 w-full rounded-lg border border-slate-300 px-3 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
+                >
+                    <option value="tabs" @selected(($settings['home_packages_layout'] ?? 'tabs') === 'tabs')>Tabbed view</option>
+                    <option value="grid" @selected(($settings['home_packages_layout'] ?? 'tabs') === 'grid')>Grid sections</option>
+                </select>
+            </div>
+        </section>
+
         <div class="flex items-center justify-end gap-3">
             <a href="{{ route('admin.dashboard') }}" class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700">
                 Cancel

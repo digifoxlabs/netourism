@@ -2,10 +2,11 @@
 
 @section('page-content')
     @include('admin.packages._form', [
-        'title' => 'Create Package',
+        'title' => 'Edit Package',
         'action' => route('admin.packages.update',$package),
         'method' => 'PUT',
         'package' => $package,
+        'categories' => $categories,
     ])
 @endsection
 

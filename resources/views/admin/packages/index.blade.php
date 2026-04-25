@@ -7,11 +7,23 @@
             <h1 class="text-2xl font-bold">Packages</h1>
             <p class="text-sm text-slate-600">Manage tour packages and itineraries</p>
         </div>
-        <a href="{{ route('admin.packages.create') }}"
-           class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white">
-            + New Package
-        </a>
+        <div class="flex items-center gap-3">
+            <a href="{{ route('admin.package-categories.index') }}"
+               class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
+                Categories
+            </a>
+            <a href="{{ route('admin.packages.create') }}"
+               class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white">
+                + New Package
+            </a>
+        </div>
     </div>
+
+    @if(session('success'))
+        <div class="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+            {{ session('success') }}
+        </div>
+    @endif
 
     <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         @forelse($packages as $package)
@@ -27,6 +39,12 @@
                     <p class="text-sm text-slate-600 mt-1">
                         {{ $package->subtitle }}
                     </p>
+
+                    <div class="mt-3 flex flex-wrap gap-2 text-xs">
+                        <span class="rounded-full bg-slate-100 px-2.5 py-1 font-medium text-slate-700">
+                            {{ $package->category->name ?? 'India Trip' }}
+                        </span>
+                    </div>
 
                     <div class="mt-3 flex justify-between text-xs text-slate-500">
                         <span>{{ $package->duration_days }} Days</span>

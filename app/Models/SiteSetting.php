@@ -13,6 +13,7 @@ class SiteSetting extends Model
         'home_show_seven_sisters' => true,
         'home_show_best_time_to_travel' => true,
         'home_show_planning_your_trip' => true,
+        'home_packages_layout' => 'tabs',
     ];
 
     protected $fillable = [

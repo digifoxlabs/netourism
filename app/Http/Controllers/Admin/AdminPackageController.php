@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Package;
+use App\Models\PackageCategory;
 use App\Models\PackageGallery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -19,7 +20,7 @@ class AdminPackageController extends Controller
      * =============================== */
     public function index()
     {
-        $packages = Package::latest()->paginate(12);
+        $packages = Package::with('category')->latest()->paginate(12);
 
  
 
@@ -31,9 +32,12 @@ class AdminPackageController extends Controller
      * =============================== */
     public function create()
     {
+        $defaultCategory = PackageCategory::defaultCategory();
+
         return view('admin.packages.create', [
             'package' => new Package(),
             'forms'   => Form::where('is_active', true)->get(),
+            'categories' => PackageCategory::orderByRaw("CASE WHEN id = ? THEN 0 ELSE 1 END", [$defaultCategory->id])->orderBy('name')->get(),
         ]);
     }
 
@@ -109,8 +113,10 @@ class AdminPackageController extends Controller
         
 
         $forms =  Form::where('is_active', true)->get();
+        $defaultCategory = PackageCategory::defaultCategory();
+        $categories = PackageCategory::orderByRaw("CASE WHEN id = ? THEN 0 ELSE 1 END", [$defaultCategory->id])->orderBy('name')->get();
 
-        return view('admin.packages.edit', compact('package','forms'));
+        return view('admin.packages.edit', compact('package','forms', 'categories'));
 
 
 
@@ -214,12 +220,15 @@ class AdminPackageController extends Controller
         return $request->validate([
             'name'           => 'required|string|max:255',
             'subtitle'       => 'nullable|string|max:255',
+            'category_id'    => ['nullable', 'exists:package_categories,id'],
             'description'    => 'nullable|string',
             'duration_days'  => 'nullable|integer|min:1',
             'is_active'      => 'nullable|boolean',
             'itinerary_json' => 'nullable|json',
             'form_id'       => ['nullable', 'exists:forms,id'], // ✅ REQUIRED
-        ]);
+        ]) + [
+            'category_id' => $request->input('category_id') ?: PackageCategory::defaultCategory()->id,
+        ];
     }
 
     protected function storeGalleryImages(Request $request, Package $package): void

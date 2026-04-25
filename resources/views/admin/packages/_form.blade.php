@@ -61,6 +61,33 @@
                                focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200">
                 </div>
 
+                <div>
+                    <div class="mb-1 flex items-center justify-between gap-3">
+                        <label class="block text-sm font-medium text-slate-700">
+                            Category
+                        </label>
+                        <a href="{{ route('admin.package-categories.index') }}" class="text-xs font-medium text-emerald-700 hover:underline">
+                            Manage categories
+                        </a>
+                    </div>
+                    @php
+                        $defaultCategoryId = optional($categories->firstWhere('slug', 'india-trip'))->id ?? optional($categories->first())->id;
+                    @endphp
+                    <select
+                        name="category_id"
+                        class="w-full h-11 rounded-lg border border-slate-300 px-4 text-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
+                    >
+                        @foreach($categories as $category)
+                            <option
+                                value="{{ $category->id }}"
+                                @selected(old('category_id', $package->category_id ?? $defaultCategoryId) == $category->id)
+                            >
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <div class="flex items-center gap-3 pt-6">
                     <input type="checkbox" name="is_active" value="1" x-model="is_active"
                         class="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">

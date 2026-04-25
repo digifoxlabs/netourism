@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\Event;
 use App\Models\HomePageSlide;
+use App\Models\PackageCategory;
 use App\Models\SiteSetting;
+use Illuminate\Support\Facades\Schema;
 
 class HomeController extends Controller
 {
@@ -16,12 +18,6 @@ class HomeController extends Controller
         $heroSlides = HomePageSlide::query()
             ->orderBy('sort_order')
             ->orderBy('id')
-            ->get();
-
-        $packages = Package::query()
-            ->where('is_active', true)
-            ->orderBy('created_at', 'desc')
-            ->take(9) // same count as your static grid
             ->get();
 
         $activeEvents = Event::where('status', 'active')
@@ -33,8 +29,35 @@ class HomeController extends Controller
             ->get();
 
         $homeSectionSettings = SiteSetting::getSettings(SiteSetting::HOME_SECTION_DEFAULTS);
+        if (Schema::hasTable('package_categories') && Schema::hasColumn('packages', 'category_id')) {
+            $defaultCategory = PackageCategory::defaultCategory();
 
-        return view('client.home', compact('heroSlides', 'packages', 'activeEvents', 'upcomingEvents', 'homeSectionSettings'));
+            $packageCategories = PackageCategory::query()
+                ->with(['packages' => function ($query) {
+                    $query->where('is_active', true)
+                        ->orderBy('created_at', 'desc');
+                }])
+                ->whereHas('packages', function ($query) {
+                    $query->where('is_active', true);
+                })
+                ->orderByRaw("CASE WHEN id = ? THEN 0 ELSE 1 END", [$defaultCategory->id])
+                ->orderBy('name')
+                ->get();
+        } else {
+            $packageCategories = collect([
+                (object) [
+                    'name' => 'Packages',
+                    'slug' => 'packages',
+                    'packages' => Package::query()
+                        ->where('is_active', true)
+                        ->orderBy('created_at', 'desc')
+                        ->take(9)
+                        ->get(),
+                ],
+            ]);
+        }
+
+        return view('client.home', compact('heroSlides', 'activeEvents', 'upcomingEvents', 'homeSectionSettings', 'packageCategories'));
     }
 
 
