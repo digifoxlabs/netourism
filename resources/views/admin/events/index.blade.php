@@ -37,6 +37,68 @@
         @endif
     </form>
 
+    @if(session('success'))
+        <div class="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <div class="mb-6 rounded-2xl border bg-white p-5 shadow-sm">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+                <h2 class="text-lg font-semibold text-slate-900">Homepage Event Visibility</h2>
+                <p class="mt-1 text-sm text-slate-600">
+                    Control whether the Active Events and Upcoming Events sections appear on the client home page.
+                </p>
+            </div>
+
+            <a href="{{ route('admin.settings.edit') }}" class="text-sm font-medium text-brand-600 hover:underline">
+                Open full settings
+            </a>
+        </div>
+
+        <form method="POST" action="{{ route('admin.settings.update') }}" class="mt-5 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            @csrf
+            @method('PUT')
+
+            <div class="grid gap-4 md:grid-cols-2">
+                <label class="flex items-start gap-3 rounded-xl border border-slate-200 p-4">
+                    <input type="hidden" name="home_show_active_events" value="0">
+                    <input
+                        type="checkbox"
+                        name="home_show_active_events"
+                        value="1"
+                        @checked($eventSectionSettings['home_show_active_events'])
+                        class="mt-1 h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500"
+                    >
+                    <span>
+                        <span class="block font-medium text-slate-900">Show active events</span>
+                        <span class="block text-sm text-slate-600">Displays the active events section on the home page.</span>
+                    </span>
+                </label>
+
+                <label class="flex items-start gap-3 rounded-xl border border-slate-200 p-4">
+                    <input type="hidden" name="home_show_upcoming_events" value="0">
+                    <input
+                        type="checkbox"
+                        name="home_show_upcoming_events"
+                        value="1"
+                        @checked($eventSectionSettings['home_show_upcoming_events'])
+                        class="mt-1 h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500"
+                    >
+                    <span>
+                        <span class="block font-medium text-slate-900">Show upcoming events</span>
+                        <span class="block text-sm text-slate-600">Displays the upcoming events section on the home page.</span>
+                    </span>
+                </label>
+            </div>
+
+            <button type="submit" class="rounded-lg bg-brand-600 px-5 py-2 text-sm font-semibold text-white">
+                Save Visibility
+            </button>
+        </form>
+    </div>
+
     {{-- EVENTS GRID --}}
     <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         @foreach($events as $event)

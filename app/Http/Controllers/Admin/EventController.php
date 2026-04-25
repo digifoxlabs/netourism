@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Form;
+use App\Models\SiteSetting;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,7 +25,12 @@ class EventController extends Controller
             ->paginate(12)      // ← pagination
             ->withQueryString();
 
-        return view('admin.events.index', compact('events'));
+        $eventSectionSettings = SiteSetting::getSettings([
+            'home_show_active_events' => SiteSetting::HOME_SECTION_DEFAULTS['home_show_active_events'],
+            'home_show_upcoming_events' => SiteSetting::HOME_SECTION_DEFAULTS['home_show_upcoming_events'],
+        ]);
+
+        return view('admin.events.index', compact('events', 'eventSectionSettings'));
     }
 
     public function create()

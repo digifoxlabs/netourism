@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\AdminPackageController;
 use App\Http\Controllers\Admin\AdminPackageItineraryController;
 use App\Http\Controllers\Admin\AdminPackageGalleryController;
 use App\Http\Controllers\Admin\HomePageSlideController;
+use App\Http\Controllers\Admin\SettingController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Client\HomeController;
 /*
@@ -128,6 +129,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
 
     Route::resource('events', EventController::class);
     Route::resource('home-page-slides', HomePageSlideController::class)->except(['show']);
+    Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
+    Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
     Route::post('events/editor-image', [EventController::class, 'uploadEditorImage'])
         ->name('events.editor-image');
     Route::post('/submissions/{submission}/confirm', [FormSubmissionController::class, 'confirm'])->name('submissions.confirm');

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\Event;
 use App\Models\HomePageSlide;
+use App\Models\SiteSetting;
 
 class HomeController extends Controller
 {
@@ -31,7 +32,9 @@ class HomeController extends Controller
             ->orderBy('start_date')
             ->get();
 
-        return view('client.home', compact('heroSlides', 'packages', 'activeEvents', 'upcomingEvents'));
+        $homeSectionSettings = SiteSetting::getSettings(SiteSetting::HOME_SECTION_DEFAULTS);
+
+        return view('client.home', compact('heroSlides', 'packages', 'activeEvents', 'upcomingEvents', 'homeSectionSettings'));
     }
 
 

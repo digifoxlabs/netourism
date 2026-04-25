@@ -104,6 +104,7 @@
   </div>
 </section>
 
+
 {{-- <!-- ================= INTRO ================= -->
   <section id="intro" class="container py-16">
     <div class="max-w-3xl">
@@ -382,10 +383,7 @@
     </div>
 </section> --}}
 
-
-
-
-
+@if($homeSectionSettings['home_show_active_events'])
 <!-- ================= ACTIVE EVENTS ================= -->
 <section id="events" class="container py-16">
 
@@ -470,7 +468,9 @@
     @endif
 
 </section>
+@endif
 
+@if($homeSectionSettings['home_show_upcoming_events'])
 <!-- ================= UPCOMING EVENTS ================= -->
 <section id="upcoming-events" class="container pb-16">
 
@@ -554,7 +554,11 @@
     @endif
 
 </section>
+@endif
 
+
+
+@if($homeSectionSettings['home_show_seven_sisters'])
 <!-- ================= SEVEN SISTERS ================= -->
 <section id="seven-sisters" class="bg-gray-50 border-y">
   <div class="container py-14 relative">
@@ -625,7 +629,9 @@
     </div>
   </div>
 </section>
+@endif
 
+@if($homeSectionSettings['home_show_best_time_to_travel'])
 <!-- ================= BEST TIME TO TRAVEL ================= -->
 <section id="best-time" class="container py-16">
   <div class="max-w-4xl">
@@ -675,7 +681,9 @@
     </ul>
   </div>
 </section>
+@endif
 
+@if($homeSectionSettings['home_show_planning_your_trip'])
 <!-- ================= PLANNING YOUR TRIP ================= -->
 <section id="planning" class="bg-gray-50 border-y">
   <div class="container py-16">
@@ -705,6 +713,9 @@
     </div>
   </div>
 </section>
+@endif
+
+
 
 <!-- ================= PACKAGES ================= -->
 <section id="packages" class="container py-12">
