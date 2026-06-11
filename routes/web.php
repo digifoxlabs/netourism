@@ -47,21 +47,6 @@ Route::get('/admin', function () {
     return redirect()->route('admin.login');
 });
 
-// Route::get('/events/old', function () {
-//     return view('client.pages.events.index');
-// })->name('events');
-
-
-// Route::get('/events', [EventRegistrationController::class, 'index'])
-//     ->name('events.index');
-
-// Route::get('events/create', [EventRegistrationController::class, 'create'])
-//     ->name('events.create');
-
-// Route::post('/alfresco-2-registration', [EventRegistrationController::class, 'store'])
-//     ->name('events.alfresco.register.store');
-
-
 Route::post('/enquiry', [ContactController::class, 'submit'])->name('enquiry.submit');
 
 
@@ -145,8 +130,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     Route::resource('package-categories', PackageCategoryController::class)
         ->except(['show', 'create']);
 
-    Route::get('packages/{package}/itinerary', [AdminPackageItineraryController::class, 'index'])->name('packages.itinerary');
-    Route::post('packages/{package}/itinerary', [AdminPackageItineraryController::class, 'store']);
+    // Route::get('packages/{package}/itinerary', [AdminPackageItineraryController::class, 'index'])->name('packages.itinerary');
+    // Route::post('packages/{package}/itinerary', [AdminPackageItineraryController::class, 'store']);
 
     Route::post('packages/{package}/gallery', [AdminPackageGalleryController::class, 'store']);
     Route::delete('packages/gallery/{gallery}', [AdminPackageGalleryController::class, 'destroy']);

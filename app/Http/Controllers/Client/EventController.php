@@ -19,9 +19,9 @@ class EventController extends Controller
         $event = Event::where('slug', $slug)->firstOrFail();
 
         // Optional: block expired events completely
-        if ($event->status === 'expired') {
-            abort(404);
-        }
+        // if ($event->status === 'expired') {
+        //     abort(404);
+        // }
 
         $form = null;
         $sections = collect();
