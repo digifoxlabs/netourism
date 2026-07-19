@@ -75,3 +75,6 @@ php artisan make:model FormField
 php artisan make:controller Admin/FormBuilderController --resource
 
 
+
+And make sure Laravel scheduler is running in production so 30-minute cancellation happens automatically:
+php artisan schedule:run

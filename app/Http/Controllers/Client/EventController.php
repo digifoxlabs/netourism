@@ -11,6 +11,8 @@ use App\Support\FormAutoEmailService;
 use App\Services\EmailTemplateService;
 use App\Mail\GenericSubmissionMail;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Payment;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -74,10 +76,21 @@ public function submit(Request $request, $slug)
         'form_id'    => $form->id,
         'event_id'   => $event->id,
         'data'       => $validated,
-        'status'     => 'pending', // IMPORTANT
+        'status'     => $event->payment_required ? 'payment_pending' : 'pending',
         'ip_address' => $request->ip(),
         'user_agent' => $request->userAgent(),
     ]);
+
+    $payment = null;
+    if ($event->payment_required && $event->payment_amount > 0) {
+        $payment = $this->createPaymentForSubmission(
+            $submission,
+            (float) $event->payment_amount,
+            $event->title,
+            $validated,
+            ['event_id' => $event->id]
+        );
+    }
 
     // 🔥 AUTO EMAIL (FORM LEVEL — ALWAYS)
    // FormAutoEmailService::sendIfEnabled($form, $validated);
@@ -109,18 +122,64 @@ public function submit(Request $request, $slug)
                 $submission
             );
 
+            if ($payment && !str_contains($body, route('payments.show', $payment))) {
+                $body .= "\n\nPayment amount: Rs. " . number_format((float) $payment->amount, 2);
+                $body .= "\nPayment status: " . ucfirst($payment->status);
+                $body .= "\nPayment link: " . route('payments.show', $payment);
+            }
+
             Mail::to($userEmail)
                 ->bcc(config('mail.admin_email'))
                 ->send(new GenericSubmissionMail($subject, nl2br($body)));
         }
     }
 
+    if ($payment) {
+        return redirect()->route('payments.show', $payment);
+    }
 
     return back()->with(
         'success',
         $form->success_message ?: 'Your registration has been received.'
     );
 }
+
+    private function createPaymentForSubmission(FormSubmission $submission, float $amount, string $productInfo, array $data, array $extra = []): Payment
+    {
+        $email = $this->findFieldValue($data, ['email', 'mail']);
+        $phone = $this->findFieldValue($data, ['phone', 'mobile', 'contact']);
+        $name = $this->findFieldValue($data, ['name', 'full_name', 'firstname']) ?: 'Guest';
+
+        return Payment::create(array_merge([
+            'form_submission_id' => $submission->id,
+            'txnid' => 'NET' . now()->format('YmdHis') . Str::upper(Str::random(6)),
+            'status' => Payment::STATUS_PENDING,
+            'amount' => $amount,
+            'productinfo' => $productInfo,
+            'firstname' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'expires_at' => now()->addMinutes(30),
+        ], $extra));
+    }
+
+    private function findFieldValue(array $data, array $needles): ?string
+    {
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                continue;
+            }
+
+            $normalized = strtolower((string) $key);
+            foreach ($needles as $needle) {
+                if (str_contains($normalized, $needle) && filled($value)) {
+                    return (string) $value;
+                }
+            }
+        }
+
+        return null;
+    }
 
 
 

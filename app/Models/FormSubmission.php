@@ -10,6 +10,7 @@ class FormSubmission extends Model
     protected $fillable = [
         'form_id',
         'event_id',
+        'package_id',
         'data',
         'ip_address',
         'user_agent',
@@ -28,5 +29,15 @@ class FormSubmission extends Model
     public function form()
     {
         return $this->belongsTo(Form::class);
+    }
+
+    public function package()
+    {
+        return $this->belongsTo(Package::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
     }
 }

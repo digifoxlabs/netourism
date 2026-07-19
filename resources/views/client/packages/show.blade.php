@@ -128,7 +128,7 @@
                 @include('client.forms._render', [
                     'form' => $form,
                     'sections' => $sections,
-                    'action' => route('forms.submit',$package->form->slug),
+                    'action' => route('packages.submit', $package),
                     'enable_conditional_js' => true,
                 ])
             @else

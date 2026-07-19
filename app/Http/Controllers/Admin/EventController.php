@@ -55,6 +55,8 @@ class EventController extends Controller
             'submission_end_date'     => 'nullable|date|after_or_equal:submission_start_date',
 
             'fee'                     => 'nullable|string|max:50',
+            'payment_required'        => 'nullable|boolean',
+            'payment_amount'          => 'required_if:payment_required,1|nullable|numeric|min:1',
             'status'                  => 'nullable|in:active,upcoming,expired',
 
             'form_id'                 => 'nullable|exists:forms,id',
@@ -72,6 +74,8 @@ class EventController extends Controller
 
         $data['auto_close_submission'] = $request->boolean('auto_close_submission');
         $data['show_remaining_seats']  = $request->boolean('show_remaining_seats');
+        $data['payment_required'] = $request->boolean('payment_required');
+        $data['payment_amount'] = $data['payment_required'] ? $request->input('payment_amount') : null;
         $data['submission_limit']      = $request->input('submission_limit', 100);
 
         $data['admin_confirmation_enabled'] = $request->boolean('admin_confirmation_enabled');
@@ -122,6 +126,8 @@ class EventController extends Controller
                 'submission_end_date'     => 'nullable|date|after_or_equal:submission_start_date',
 
                 'fee'                     => 'nullable|string|max:50',
+                'payment_required'        => 'nullable|boolean',
+                'payment_amount'          => 'required_if:payment_required,1|nullable|numeric|min:1',
                 'status'                  => 'nullable|in:active,upcoming,expired',
 
                 'form_id'                 => 'nullable|exists:forms,id',
@@ -137,6 +143,8 @@ class EventController extends Controller
 
             $data['auto_close_submission'] = $request->boolean('auto_close_submission');
             $data['show_remaining_seats']  = $request->boolean('show_remaining_seats');
+            $data['payment_required'] = $request->boolean('payment_required');
+            $data['payment_amount'] = $data['payment_required'] ? $request->input('payment_amount') : null;
             $data['submission_limit']      = $request->input('submission_limit', 100);
 
             $data['admin_confirmation_enabled'] = $request->boolean('admin_confirmation_enabled');

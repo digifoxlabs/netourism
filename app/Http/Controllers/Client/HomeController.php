@@ -9,7 +9,13 @@ use App\Models\Event;
 use App\Models\HomePageSlide;
 use App\Models\PackageCategory;
 use App\Models\SiteSetting;
+use App\Models\FormSubmission;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Schema;
+use App\Services\EmailTemplateService;
+use App\Mail\GenericSubmissionMail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -112,6 +118,116 @@ class HomeController extends Controller
         'form',
         'sections'
     ));
+}
+
+public function submitPackage(Request $request, Package $package)
+{
+    abort_unless($package->is_active, 404);
+
+    $form = $package->form()->where('is_active', true)->firstOrFail();
+    $fields = $form->fields()->orderBy('sort_order')->get();
+
+    $rules = [];
+    $labels = [];
+
+    foreach ($fields as $field) {
+        $rule = $field->required ? ['required'] : ['nullable'];
+
+        if ($field->type === 'email') $rule[] = 'email';
+        if ($field->type === 'number') $rule[] = 'numeric';
+        if ($field->type === 'date') $rule[] = 'date';
+
+        $rules[$field->name] = implode('|', $rule);
+        $labels[$field->name] = $field->label;
+    }
+
+    $validated = $request->validate($rules, [], $labels);
+
+    $submission = FormSubmission::create([
+        'form_id' => $form->id,
+        'package_id' => $package->id,
+        'data' => $validated,
+        'status' => $package->payment_required ? 'payment_pending' : 'confirmed',
+        'ip_address' => $request->ip(),
+        'user_agent' => $request->userAgent(),
+    ]);
+
+    $payment = null;
+    if ($package->payment_required && $package->payment_amount > 0) {
+        $payment = $this->createPaymentForSubmission(
+            $submission,
+            (float) $package->payment_amount,
+            $package->name,
+            $validated,
+            ['package_id' => $package->id]
+        );
+    }
+
+    if ($form->auto_email_confirmation && $form->confirmation_email_template) {
+        $userEmail = $this->findFieldValue($submission->data, ['email', 'mail']);
+
+        if ($userEmail && filter_var($userEmail, FILTER_VALIDATE_EMAIL)) {
+            $subject = EmailTemplateService::render(
+                $form->confirmation_email_subject ?: 'Form Submitted',
+                $submission
+            );
+
+            $body = EmailTemplateService::render($form->confirmation_email_template, $submission);
+
+            if ($payment && !str_contains($body, route('payments.show', $payment))) {
+                $body .= "\n\nPayment amount: Rs. " . number_format((float) $payment->amount, 2);
+                $body .= "\nPayment status: " . ucfirst($payment->status);
+                $body .= "\nPayment link: " . route('payments.show', $payment);
+            }
+
+            Mail::to($userEmail)
+                ->bcc(config('mail.admin_email'))
+                ->send(new GenericSubmissionMail($subject, nl2br($body)));
+        }
+    }
+
+    if ($payment) {
+        return redirect()->route('payments.show', $payment);
+    }
+
+    return back()->with('success', $form->success_message ?: 'Thank you. Your submission has been received.');
+}
+
+private function createPaymentForSubmission(FormSubmission $submission, float $amount, string $productInfo, array $data, array $extra = []): Payment
+{
+    $email = $this->findFieldValue($data, ['email', 'mail']);
+    $phone = $this->findFieldValue($data, ['phone', 'mobile', 'contact']);
+    $name = $this->findFieldValue($data, ['name', 'full_name', 'firstname']) ?: 'Guest';
+
+    return Payment::create(array_merge([
+        'form_submission_id' => $submission->id,
+        'txnid' => 'NET' . now()->format('YmdHis') . Str::upper(Str::random(6)),
+        'status' => Payment::STATUS_PENDING,
+        'amount' => $amount,
+        'productinfo' => $productInfo,
+        'firstname' => $name,
+        'email' => $email,
+        'phone' => $phone,
+        'expires_at' => now()->addMinutes(30),
+    ], $extra));
+}
+
+private function findFieldValue(array $data, array $needles): ?string
+{
+    foreach ($data as $key => $value) {
+        if (is_array($value)) {
+            continue;
+        }
+
+        $normalized = strtolower((string) $key);
+        foreach ($needles as $needle) {
+            if (str_contains($normalized, $needle) && filled($value)) {
+                return (string) $value;
+            }
+        }
+    }
+
+    return null;
 }
 
 

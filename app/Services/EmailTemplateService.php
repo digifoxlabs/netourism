@@ -65,8 +65,12 @@ class EmailTemplateService
             $submission->data ?? [],
             [
                 'event_title'    => optional($submission->event)->title,
+                'package_name'    => optional($submission->package)->name,
                 'submission_id'  => $submission->id,
                 'submitted_at'   => optional($submission->created_at)->format('d M Y, h:i A'),
+                'payment_status' => optional($submission->payment)->status,
+                'payment_amount' => optional($submission->payment)->amount,
+                'payment_url' => $submission->payment ? route('payments.show', $submission->payment) : null,
             ]
         );
     }

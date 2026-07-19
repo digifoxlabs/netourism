@@ -144,16 +144,12 @@ x-data="{ submitting: false }">
         Register for this event
     </h2>
 
-    <form action="{{ route('events.submit', $event->slug) }}" method="POST" @submit="submitting = true">
-        @csrf
-
-        @include('client.forms._render', [
-        'form' => $form,
-        'sections' => $sections,
-        'action' => route('events.submit', $event->slug),
-        'enable_conditional_js' => true
-        ])
-    </form>
+    @include('client.forms._render', [
+    'form' => $form,
+    'sections' => $sections,
+    'action' => route('events.submit', $event->slug),
+    'enable_conditional_js' => true
+    ])
 </div>
 
 {{-- NO FORM --}}

@@ -12,6 +12,7 @@
 
     <a href="{{ route('admin.dashboard') }}" class="hover:text-brand-600">Dashboard</a>
     <a href="{{ route('admin.settings.edit') }}" class="hover:text-brand-600">Settings</a>
+    <a href="{{ route('admin.payments.index') }}" class="hover:text-brand-600">Payments</a>
 
     @auth('admin')
         @php($admin = Auth::guard('admin')->user())
@@ -121,6 +122,7 @@
     <nav class="p-4 flex flex-col gap-3 bg-white">
       <a href="{{ route('admin.dashboard') }}" class="px-3 py-2 rounded-lg hover:bg-gray-100">Dashboard</a>
       <a href="{{ route('admin.settings.edit') }}" class="px-3 py-2 rounded-lg hover:bg-gray-100">Settings</a>
+      <a href="{{ route('admin.payments.index') }}" class="px-3 py-2 rounded-lg hover:bg-gray-100">Payments</a>
 
       @auth('admin')
           @php($admin = Auth::guard('admin')->user())

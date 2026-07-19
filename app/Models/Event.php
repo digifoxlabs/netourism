@@ -25,6 +25,8 @@ class Event extends Model
         'auto_close_submission',
         'submission_limit',
         'show_remaining_seats',
+        'payment_required',
+        'payment_amount',
         'admin_confirmation_enabled',
         'admin_confirmation_email_template',
         'admin_confirmation_email_subject'
@@ -41,6 +43,8 @@ class Event extends Model
         'auto_close_submission' => 'boolean',
         'show_remaining_seats'  => 'boolean',
         'submission_limit'      => 'integer',
+        'payment_required' => 'boolean',
+        'payment_amount' => 'decimal:2',
         'admin_confirmation_enabled' => 'boolean',
     ];
 
@@ -52,6 +56,11 @@ class Event extends Model
     public function submissions()
     {
         return $this->hasMany(FormSubmission::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 
     // computed status

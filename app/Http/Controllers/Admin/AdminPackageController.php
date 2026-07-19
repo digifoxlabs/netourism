@@ -217,18 +217,24 @@ class AdminPackageController extends Controller
 
     protected function validatedData(Request $request): array
     {
-        return $request->validate([
+        $data = $request->validate([
             'name'           => 'required|string|max:255',
             'subtitle'       => 'nullable|string|max:255',
             'category_id'    => ['nullable', 'exists:package_categories,id'],
             'description'    => 'nullable|string',
             'duration_days'  => 'nullable|integer|min:1',
             'is_active'      => 'nullable|boolean',
+            'payment_required' => ['nullable', 'boolean'],
+            'payment_amount' => ['required_if:payment_required,1', 'nullable', 'numeric', 'min:1'],
             'itinerary_json' => 'nullable|json',
             'form_id'       => ['nullable', 'exists:forms,id'], // ✅ REQUIRED
-        ]) + [
-            'category_id' => $request->input('category_id') ?: PackageCategory::defaultCategory()->id,
-        ];
+        ]);
+
+        $data['category_id'] = $request->input('category_id') ?: PackageCategory::defaultCategory()->id;
+        $data['payment_required'] = $request->boolean('payment_required');
+        $data['payment_amount'] = $data['payment_required'] ? $request->input('payment_amount') : null;
+
+        return $data;
     }
 
     protected function storeGalleryImages(Request $request, Package $package): void

@@ -21,11 +21,15 @@ class Package extends Model
         'duration_days',
         'is_active',
         'form_id',
+        'payment_required',
+        'payment_amount',
     ];
 
     protected $casts = [
         'highlights' => 'array',
         'is_active'  => 'boolean',
+        'payment_required' => 'boolean',
+        'payment_amount' => 'decimal:2',
          'itinerary' => 'array',
     ];
 
@@ -42,6 +46,16 @@ class Package extends Model
     public function category()
     {
         return $this->belongsTo(PackageCategory::class, 'category_id');
+    }
+
+    public function submissions()
+    {
+        return $this->hasMany(FormSubmission::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 
 }
