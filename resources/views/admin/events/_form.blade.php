@@ -123,34 +123,11 @@
             <input name="fee" value="{{ old('fee', $event->fee ?? '') }}" class="mt-1 block w-full h-11 rounded-lg border px-3" placeholder="₹2,299 / Free / Pay at venue">
         </div>
 
-        <div
-            x-data="{ required: {{ old('payment_required', $event->payment_required ?? false) ? 'true' : 'false' }} }"
-            class="md:col-span-2 rounded-xl border border-emerald-200 bg-emerald-50/60 p-4"
-        >
-            <label class="flex items-center gap-2 text-sm font-semibold text-slate-800">
-                <input
-                    type="checkbox"
-                    name="payment_required"
-                    value="1"
-                    x-model="required"
-                    class="h-4 w-4 rounded border-slate-300 text-emerald-600"
-                >
-                Payment required after event registration
-            </label>
-
-            <div x-show="required" x-cloak class="mt-4 max-w-xs">
-                <label class="block text-sm font-medium text-slate-800">Payment Amount</label>
-                <input
-                    type="number"
-                    name="payment_amount"
-                    value="{{ old('payment_amount', $event->payment_amount ?? '') }}"
-                    min="1"
-                    step="0.01"
-                    class="mt-1 block w-full h-11 rounded-lg border px-3"
-                    placeholder="2299.00"
-                >
-                <p class="mt-1 text-xs text-slate-500">Users receive a 30-minute PayU payment link after submitting the form.</p>
-            </div>
+        <div class="md:col-span-2 rounded-xl border border-emerald-200 bg-emerald-50/60 p-4">
+            @include('admin.partials.payment-options', [
+                'model' => $event,
+                'label' => 'Payment required after event registration',
+            ])
         </div>
     </div>
 

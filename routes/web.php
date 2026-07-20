@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\HomePageSlideController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Client\PaymentController as ClientPaymentController;
+use App\Http\Controllers\Client\BookingPaymentController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Client\HomeController;
 /*
@@ -45,6 +46,8 @@ Route::post('/payments/{payment}/checkout', [ClientPaymentController::class, 'ch
 Route::match(['GET', 'POST'], '/payments/{payment}/success', [ClientPaymentController::class, 'success'])->name('payments.success');
 Route::match(['GET', 'POST'], '/payments/{payment}/failure', [ClientPaymentController::class, 'failure'])->name('payments.failure');
 Route::post('/payments/{payment}/cancel', [ClientPaymentController::class, 'cancel'])->name('payments.cancel');
+Route::get('/booking-payments/{submission}/options', [BookingPaymentController::class, 'options'])->name('booking-payments.options');
+Route::post('/booking-payments/{submission}/options', [BookingPaymentController::class, 'choose'])->name('booking-payments.choose');
 
 
 
@@ -129,6 +132,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     Route::get('payments/settings', [AdminPaymentController::class, 'settings'])->name('payments.settings');
     Route::put('payments/settings', [AdminPaymentController::class, 'updateSettings'])->name('payments.settings.update');
     Route::get('payments/reports', [AdminPaymentController::class, 'reports'])->name('payments.reports');
+    Route::post('payments/{payment}/mark-pending', [AdminPaymentController::class, 'markPending'])->name('payments.mark-pending');
     Route::post('events/editor-image', [EventController::class, 'uploadEditorImage'])
         ->name('events.editor-image');
     Route::post('/submissions/{submission}/confirm', [FormSubmissionController::class, 'confirm'])->name('submissions.confirm');

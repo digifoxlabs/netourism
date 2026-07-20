@@ -27,6 +27,7 @@ class Event extends Model
         'show_remaining_seats',
         'payment_required',
         'payment_amount',
+        'payment_options',
         'admin_confirmation_enabled',
         'admin_confirmation_email_template',
         'admin_confirmation_email_subject'
@@ -45,6 +46,7 @@ class Event extends Model
         'submission_limit'      => 'integer',
         'payment_required' => 'boolean',
         'payment_amount' => 'decimal:2',
+        'payment_options' => 'array',
         'admin_confirmation_enabled' => 'boolean',
     ];
 

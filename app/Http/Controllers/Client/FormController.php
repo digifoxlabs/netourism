@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Support\FormAutoEmailService;
 use App\Services\EmailTemplateService;
 use App\Mail\GenericSubmissionMail;
+use Illuminate\Support\Facades\Log;
 
 class FormController extends Controller
 {
@@ -132,9 +133,18 @@ public function submit(Request $request, $slug)
                 $submission
             );
 
-            Mail::to($userEmail)
-                ->bcc(config('mail.admin_email'))
-                ->send(new GenericSubmissionMail($subject, nl2br($body)));
+            try {
+                Mail::to($userEmail)
+                    ->bcc(config('mail.admin_email'))
+                    ->send(new GenericSubmissionMail($subject, nl2br($body)));
+            } catch (\Throwable $e) {
+                Log::warning('Form auto-confirmation email failed.', [
+                    'submission_id' => $submission->id,
+                    'form_id' => $form->id,
+                    'email' => $userEmail,
+                    'error' => $e->getMessage(),
+                ]);
+            }
         }
     }
 

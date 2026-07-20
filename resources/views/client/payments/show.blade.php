@@ -33,6 +33,9 @@
             <div class="rounded-xl border bg-slate-50 p-4">
                 <p class="text-xs text-slate-500">For</p>
                 <p class="mt-1 font-semibold text-slate-900">{{ $payment->productinfo }}</p>
+                @if($payment->payment_label)
+                    <p class="mt-1 text-sm text-slate-600">{{ $payment->payment_label }}</p>
+                @endif
             </div>
 
             <div class="rounded-xl border bg-slate-50 p-4">
@@ -74,6 +77,10 @@
         @elseif($payment->status === 'paid')
             <div class="mt-6 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
                 Payment received on {{ optional($payment->paid_at)->format('d M Y, h:i A') }}.
+            </div>
+        @elseif($payment->status === 'pay_later')
+            <div class="mt-6 rounded-xl border border-sky-200 bg-sky-50 p-4 text-sm text-sky-800">
+                Your booking has been received with pay later selected.
             </div>
         @endif
     </div>

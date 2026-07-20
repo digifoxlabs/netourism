@@ -23,6 +23,7 @@ class Package extends Model
         'form_id',
         'payment_required',
         'payment_amount',
+        'payment_options',
     ];
 
     protected $casts = [
@@ -30,6 +31,7 @@ class Package extends Model
         'is_active'  => 'boolean',
         'payment_required' => 'boolean',
         'payment_amount' => 'decimal:2',
+        'payment_options' => 'array',
          'itinerary' => 'array',
     ];
 

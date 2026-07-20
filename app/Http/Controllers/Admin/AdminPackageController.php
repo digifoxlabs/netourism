@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Form;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class AdminPackageController extends Controller
 {
@@ -225,16 +226,74 @@ class AdminPackageController extends Controller
             'duration_days'  => 'nullable|integer|min:1',
             'is_active'      => 'nullable|boolean',
             'payment_required' => ['nullable', 'boolean'],
-            'payment_amount' => ['required_if:payment_required,1', 'nullable', 'numeric', 'min:1'],
+            'payment_amount' => ['nullable', 'numeric', 'min:1'],
+            'payment_options' => ['nullable', 'array'],
+            'payment_options.*.label' => ['nullable', 'string', 'max:255'],
+            'payment_options.*.description' => ['nullable', 'string'],
+            'payment_options.*.amount' => ['nullable', 'numeric', 'min:0'],
+            'payment_options.*.type' => ['nullable', 'in:partial,full,pay_later'],
             'itinerary_json' => 'nullable|json',
             'form_id'       => ['nullable', 'exists:forms,id'], // ✅ REQUIRED
         ]);
 
         $data['category_id'] = $request->input('category_id') ?: PackageCategory::defaultCategory()->id;
         $data['payment_required'] = $request->boolean('payment_required');
-        $data['payment_amount'] = $data['payment_required'] ? $request->input('payment_amount') : null;
+        $data['payment_options'] = $this->normalizePaymentOptions($request);
+        $data['payment_amount'] = $data['payment_required'] ? $this->firstPayableAmount($data['payment_options']) : null;
 
         return $data;
+    }
+
+    private function normalizePaymentOptions(Request $request): ?array
+    {
+        if (!$request->boolean('payment_required')) {
+            return null;
+        }
+
+        $options = collect($request->input('payment_options', []))
+            ->map(function ($option) {
+                $type = in_array(($option['type'] ?? 'full'), ['partial', 'full', 'pay_later'])
+                    ? $option['type']
+                    : 'full';
+
+                return [
+                    'label' => trim((string) ($option['label'] ?? '')),
+                    'description' => trim((string) ($option['description'] ?? '')),
+                    'amount' => (float) ($option['amount'] ?? 0),
+                    'type' => $type,
+                ];
+            })
+            ->filter(fn ($option) => $option['label'] !== '' && ($option['type'] === 'pay_later' || $option['amount'] > 0))
+            ->values()
+            ->all();
+
+        if (!$options && (float) $request->input('payment_amount') > 0) {
+            $options[] = [
+                'label' => 'Full payment',
+                'description' => '',
+                'amount' => (float) $request->input('payment_amount'),
+                'type' => 'full',
+            ];
+        }
+
+        if (!$options) {
+            throw ValidationException::withMessages([
+                'payment_options' => 'Add at least one payment option or disable payment required.',
+            ]);
+        }
+
+        return $options;
+    }
+
+    private function firstPayableAmount(?array $options): ?float
+    {
+        foreach ($options ?? [] as $option) {
+            if (($option['type'] ?? null) !== 'pay_later' && (float) ($option['amount'] ?? 0) > 0) {
+                return (float) $option['amount'];
+            }
+        }
+
+        return null;
     }
 
     protected function storeGalleryImages(Request $request, Package $package): void

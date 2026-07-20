@@ -92,4 +92,26 @@ class PaymentController extends Controller
             'refunds'
         ));
     }
+
+    public function markPending(Payment $payment)
+    {
+        if ($payment->status !== Payment::STATUS_CANCELLED) {
+            return redirect()
+                ->route('admin.payments.index')
+                ->with('error', 'Only cancelled payments can be changed back to pending.');
+        }
+
+        $payment->update([
+            'status' => Payment::STATUS_PENDING,
+            'cancelled_at' => null,
+            'failed_at' => null,
+            'expires_at' => now()->addMinutes(30),
+        ]);
+
+        optional($payment->submission)->update(['status' => 'payment_pending']);
+
+        return redirect()
+            ->route('admin.payments.index')
+            ->with('success', 'Payment reopened. Share link: ' . route('payments.show', $payment));
+    }
 }

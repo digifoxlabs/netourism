@@ -185,41 +185,42 @@ class FormBuilderController extends Controller
 
 
     public function edit(Form $form)
-{
-    $form->load('fields');
+    {
+        $form->load('fields');
 
-    $sections = $form->fields
-        ->groupBy(fn ($f) => $f->section_title ?: 'Main')
-        ->map(fn ($fields, $title) => [
-            'title' => $title,
-            'fields' => $fields->map(fn ($f) => [
-                'label'                => $f->label,
-                'name'                 => $f->name,
-                'type'                 => $f->type,
-                'placeholder'          => $f->placeholder,
-                'help_text'            => $f->help_text,
-                'required'             => $f->required,
-                'options_raw'          => $f->options_raw,
-                'width'                => $f->width,
-                'conditional_enabled'  => $f->conditional_enabled,
-                'conditional_field'    => $f->conditional_field,
-                'conditional_operator' => $f->conditional_operator,
-                'conditional_value'    => $f->conditional_value,
-            ]),
-        ])->values();
+        $sections = $form->fields
+            ->groupBy(fn ($field) => $field->section_title ?: 'Main')
+            ->map(fn ($fields, $title) => [
+                'title' => $title,
+                'fields' => $fields
+                    ->map(fn ($field) => [
+                        'label'                => $field->label,
+                        'name'                 => $field->name,
+                        'type'                 => $field->type,
+                        'placeholder'          => $field->placeholder,
+                        'help_text'            => $field->help_text,
+                        'required'             => $field->required,
+                        'options_raw'          => $this->optionsRaw($field),
+                        'width'                => $field->width,
+                        'conditional_enabled'  => $field->conditional_enabled,
+                        'conditional_field'    => $field->conditional_field,
+                        'conditional_operator' => $field->conditional_operator,
+                        'conditional_value'    => $field->conditional_value,
+                    ])
+                    ->values(),
+            ])->values();
 
-    // ✅ ADD THIS — FLAT LIST OF FIELD NAMES
-    $placeholders = $form->fields
-        ->pluck('name')
-        ->filter()
-        ->values();
+        $placeholders = $form->fields
+            ->pluck('name')
+            ->filter()
+            ->values();
 
-    return view('admin.forms.edit', [
-        'form'         => $form,
-        'sections'     => $sections,
-        'placeholders' => $placeholders, // ✅ PASS TO VIEW
-    ]);
-}
+        return view('admin.forms.edit', [
+            'form'         => $form,
+            'sections'     => $sections,
+            'placeholders' => $placeholders,
+        ]);
+    }
 
 
 
@@ -381,6 +382,28 @@ class FormBuilderController extends Controller
                 'conditional_value'    => $field['conditional_value'] ?? null,
             ]);
         }
+    }
+
+    protected function optionsRaw(FormField $field): string
+    {
+        if (!in_array($field->type, ['select', 'radio', 'checkbox'])) {
+            return '';
+        }
+
+        $options = $field->options;
+
+        if (is_string($options)) {
+            $decoded = json_decode($options, true);
+            $options = is_array($decoded) ? $decoded : preg_split("/\r\n|\n|\r/", $options);
+        }
+
+        if (!is_array($options)) {
+            return '';
+        }
+
+        return collect($options)
+            ->filter(fn ($option) => filled($option))
+            ->implode("\n");
     }
 
 

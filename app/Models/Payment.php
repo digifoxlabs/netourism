@@ -11,6 +11,7 @@ class Payment extends Model
     public const STATUS_FAILED = 'failed';
     public const STATUS_CANCELLED = 'cancelled';
     public const STATUS_REFUNDED = 'refunded';
+    public const STATUS_PAY_LATER = 'pay_later';
 
     protected $fillable = [
         'form_submission_id',
@@ -21,6 +22,9 @@ class Payment extends Model
         'amount',
         'currency',
         'productinfo',
+        'payment_label',
+        'payment_type',
+        'payment_description',
         'firstname',
         'email',
         'phone',
@@ -66,5 +70,10 @@ class Payment extends Model
         return $this->status === self::STATUS_PENDING
             && $this->expires_at
             && $this->expires_at->isPast();
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'txnid';
     }
 }

@@ -16,6 +16,8 @@ use App\Services\EmailTemplateService;
 use App\Mail\GenericSubmissionMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Client\BookingPaymentController;
 
 class HomeController extends Controller
 {
@@ -153,14 +155,9 @@ public function submitPackage(Request $request, Package $package)
     ]);
 
     $payment = null;
-    if ($package->payment_required && $package->payment_amount > 0) {
-        $payment = $this->createPaymentForSubmission(
-            $submission,
-            (float) $package->payment_amount,
-            $package->name,
-            $validated,
-            ['package_id' => $package->id]
-        );
+    $paymentOptions = BookingPaymentController::optionsFor($package);
+    if ($package->payment_required && count($paymentOptions) === 1) {
+        $payment = BookingPaymentController::createPaymentFromOption($submission, $paymentOptions[0]);
     }
 
     if ($form->auto_email_confirmation && $form->confirmation_email_template) {
@@ -178,16 +175,31 @@ public function submitPackage(Request $request, Package $package)
                 $body .= "\n\nPayment amount: Rs. " . number_format((float) $payment->amount, 2);
                 $body .= "\nPayment status: " . ucfirst($payment->status);
                 $body .= "\nPayment link: " . route('payments.show', $payment);
+            } elseif (count($paymentOptions) > 1 && !str_contains($body, route('booking-payments.options', $submission))) {
+                $body .= "\n\nChoose payment option: " . route('booking-payments.options', $submission);
             }
 
-            Mail::to($userEmail)
-                ->bcc(config('mail.admin_email'))
-                ->send(new GenericSubmissionMail($subject, nl2br($body)));
+            try {
+                Mail::to($userEmail)
+                    ->bcc(config('mail.admin_email'))
+                    ->send(new GenericSubmissionMail($subject, nl2br($body)));
+            } catch (\Throwable $e) {
+                Log::warning('Package auto-confirmation email failed.', [
+                    'submission_id' => $submission->id,
+                    'package_id' => $package->id,
+                    'email' => $userEmail,
+                    'error' => $e->getMessage(),
+                ]);
+            }
         }
     }
 
     if ($payment) {
         return redirect()->route('payments.show', $payment);
+    }
+
+    if ($package->payment_required && count($paymentOptions) > 1) {
+        return redirect()->route('booking-payments.options', $submission);
     }
 
     return back()->with('success', $form->success_message ?: 'Thank you. Your submission has been received.');
@@ -201,7 +213,7 @@ private function createPaymentForSubmission(FormSubmission $submission, float $a
 
     return Payment::create(array_merge([
         'form_submission_id' => $submission->id,
-        'txnid' => 'NET' . now()->format('YmdHis') . Str::upper(Str::random(6)),
+        'txnid' => 'NET' . Str::upper(Str::random(24)),
         'status' => Payment::STATUS_PENDING,
         'amount' => $amount,
         'productinfo' => $productInfo,

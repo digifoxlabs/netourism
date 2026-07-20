@@ -128,35 +128,12 @@
 
 {{-- PAYMENT FLOW --}}
 <section
-    x-data="{ required: {{ old('payment_required', $package->payment_required ?? false) ? 'true' : 'false' }} }"
     class="rounded-xl border border-emerald-200 bg-emerald-50/60 p-5 space-y-4"
 >
-    <label class="flex items-center gap-3 text-sm font-semibold text-slate-800">
-        <input
-            type="checkbox"
-            name="payment_required"
-            value="1"
-            x-model="required"
-            class="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
-        >
-        Payment required after package enquiry
-    </label>
-
-    <div x-show="required" x-cloak class="max-w-xs">
-        <label class="block text-sm font-medium text-slate-700 mb-1">
-            Payment Amount
-        </label>
-        <input
-            type="number"
-            name="payment_amount"
-            value="{{ old('payment_amount', $package->payment_amount ?? '') }}"
-            min="1"
-            step="0.01"
-            placeholder="4999.00"
-            class="w-full h-11 rounded-lg border border-slate-300 px-4 text-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
-        >
-        <p class="mt-1 text-xs text-slate-500">Users receive a 30-minute PayU payment link after submitting the form.</p>
-    </div>
+    @include('admin.partials.payment-options', [
+        'model' => $package ?? new \App\Models\Package(),
+        'label' => 'Payment required after package enquiry',
+    ])
 </section>
 
 
